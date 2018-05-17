@@ -58,7 +58,7 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # console
-    wget xsel vim tmux git tig fasd openvpn
+    wget xsel vim tmux git tig fasd openvpn unzip
 
     # gui
     chromium emacs zoom-us zathura
@@ -76,7 +76,7 @@ in
     elmPackages.elm
 
     # containers
-    docker docker_compose
+    docker_compose kubectl
   ];
 
   fonts.fonts = with pkgs; [
@@ -147,7 +147,7 @@ in
     isNormalUser = true;
     home = "/home/mbilski";
     description = "Mateusz Bilski";
-    extraGroups = [ "wheel" "networkmanager" "audio" ];
+    extraGroups = [ "wheel" "networkmanager" "audio" "docker" ];
     uid = 1000;
     shell = pkgs.zsh;
   };
@@ -159,9 +159,12 @@ in
     ZSH_THEME="robbyrussell"
     plugins=(git)
     source $ZSH/oh-my-zsh.sh
+    source <(kubectl completion zsh)
     eval "$(fasd --init auto)"
     export GOROOT=${pkgs.go}/share/go
   '';
+
+  virtualisation.docker.enable = true;
 
   system.stateVersion = "18.03";
 }
