@@ -1,0 +1,5 @@
+#include "/usr/share/rofi/themes//solarized.theme"
+rofi.combi-modi: window,drun,ssh
+rofi.theme: solarized
+rofi.font: hack 10
+rofi.modi: combi
