@@ -4,6 +4,9 @@
 
 { config, pkgs, ... }:
 
+let
+  secrets = import ./secrets.nix;
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -47,11 +50,15 @@
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
 
+  environment.variables = {
+    EDITOR = "vim";
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # console
-    wget xsel vim tmux git tig fasd
+    wget xsel vim tmux git tig fasd openvpn
 
     # gui
     chromium emacs zoom-us zathura
@@ -101,12 +108,33 @@
 
   # Enable sound.
   sound.enable = true;
-  sound.mediaKeys = {
+  hardware.pulseaudio = {
     enable = true;
-    volumeStep = "5%";
+    support32Bit = true;
+    tcp = {
+      enable = true;
+      anonymousClients.allowedIpRanges = ["127.0.0.1"];
+    };
   };
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;
+
+  services.mopidy = {
+    enable = true;
+    extensionPackages = [ pkgs.mopidy-spotify pkgs.mopidy-iris ];
+    configuration = ''
+      [spotify]
+      enabled = true
+      username = ${secrets.spotify.username}
+      password = ${secrets.spotify.password} 
+
+      client_id = ${secrets.spotify.clientId}
+      client_secret = ${secrets.spotify.clientSecret}
+
+      bitrate = 320
+
+      [audio]
+      output = pulsesink server=127.0.0.1
+    '';
+  };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
