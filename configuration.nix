@@ -6,6 +6,9 @@
 
 let
   secrets = import ./secrets.nix;
+  minikube25 = pkgs.callPackage ./pkgs/minikube25 {
+    inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
+  };
 in
 {
   imports =
@@ -54,6 +57,7 @@ in
     EDITOR = "vim";
   };
 
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -76,7 +80,7 @@ in
     elmPackages.elm
 
     # containers
-    docker_compose kubectl
+    docker_compose kubectl virtualbox minikube25
   ];
 
   fonts.fonts = with pkgs; [
@@ -147,7 +151,7 @@ in
     isNormalUser = true;
     home = "/home/mbilski";
     description = "Mateusz Bilski";
-    extraGroups = [ "wheel" "networkmanager" "audio" "docker" ];
+    extraGroups = ["wheel" "networkmanager" "audio" "docker"];
     uid = 1000;
     shell = pkgs.zsh;
   };
@@ -165,6 +169,10 @@ in
   '';
 
   virtualisation.docker.enable = true;
+  virtualisation.virtualbox.host = {
+      enable = true;
+      headless = true;
+  };
 
   system.stateVersion = "18.03";
 }
