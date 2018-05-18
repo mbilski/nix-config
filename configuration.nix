@@ -9,6 +9,9 @@ let
   minikube25 = pkgs.callPackage ./pkgs/minikube25 {
     inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
   };
+  minikube27 = pkgs.callPackage ./pkgs/minikube27 {
+    inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
+  };
 in
 {
   imports =
@@ -40,6 +43,10 @@ in
       fsType = "ext4";
     };
 
+  nix.gc.automatic = true;
+  nix.gc.dates = "weekly";
+  nix.gc.options = "--delete-older-than 7d";
+
   networking.hostName = "t470";
   networking.networkmanager.enable = true;
 
@@ -62,7 +69,7 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # console
-    wget xsel vim tmux git tig fasd openvpn unzip
+    wget xsel vim tmux git tig fasd openvpn unzip zip
 
     # gui
     chromium emacs zoom-us zathura
@@ -76,11 +83,11 @@ in
 
     # dev
     scala maven jdk jetbrains.idea-community
-    go dep gnumake protobuf
-    elmPackages.elm
+    go godef dep glide gnumake protobuf3_5
+    elmPackages.elm asciidoctor
 
     # containers
-    docker_compose kubectl virtualbox minikube25
+    docker_compose kubectl virtualbox minikube27
   ];
 
   fonts.fonts = with pkgs; [
