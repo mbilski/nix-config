@@ -17,8 +17,14 @@ hide_edge_borders both
 for_window [class="^.*"] border pixel 1
 new_window 1pixel
 
+gaps inner 20
+gaps outer 0
+smart_gaps on
+smart_borders on
+
 exec --no-startup-id xmodmap ~/.Xmodmap
-exec --no-startup-id xsetroot -solid "#333333"
+#exec --no-startup-id xsetroot -solid "#333333"
+exec --no-startup-id feh --bg-scale ~/.i3/wallpaper.jpg
 exec --no-startup-id pasystray
 exec --no-startup-id nm-applet
 
@@ -27,18 +33,18 @@ bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
 bindsym XF86AudioMute exec pactl set-sink-volume 0 -100%
 
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20
 
-bindsym XF86AudioPlay exec playerctl play
-bindsym XF86AudioPause exec playerctl pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPlay exec mpc play
+bindsym XF86AudioPause exec mpc pause
+bindsym XF86AudioNext exec mpc next
+bindsym XF86AudioPrev exec mpc prev
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
-bindsym $mod+b exec i3lock -c 333333
+bindsym $mod+b exec ~/.i3/lock.sh
 
 # kill focused window
 bindsym $mod+Shift+q kill

@@ -47,11 +47,16 @@ TEXT
     { "full_text" : "mem: ${mem}" , "color" : \
     ${if_match ${memperc}<90}"\#ffffff"${else}"\#ff0000"${endif} },
 
+    { "full_text" : "swap: ${swap}", "color" : "\#ffffff" },
+
     # Network
     { "full_text": "up: ${upspeed wlp4s0}, down: ${downspeed wlp4s0}", "color": "\#ffffff" },
 
     # Disk
     { "full_text" : "disk: ${fs_free /} free" , "color" : "\#ffffff" },
+
+    # MPC
+    { "full_text" : "${exec mpc | head -n1}" , "color" : "\#00aaff" },
 
     # Networking
     # You might want to change wls2, ens3f1 ans enp0s20u1 to whatever
@@ -98,7 +103,7 @@ TEXT
     { "full_text": "Wrocław: ${exec cat /var/weather}°C", "color": "\#ffffff"},
 
     # Time
-    { "full_text" : "${time %A %d/%m/%y} US ${tztime America/Los_Angeles %H:%M} PL ${time %H:%M}" , "color" : "\#ffffff" }
+    { "full_text" : "${time %A %d/%m/%y} US ${tztime America/Los_Angeles %H:%M} PL ${time %H:%M} " , "color" : "\#ffffff" }
     ],
 
 ### output is printed to console -> i3bar

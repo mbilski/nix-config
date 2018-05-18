@@ -70,6 +70,7 @@ in
   environment.systemPackages = with pkgs; [
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
+    mpc_cli weather
 
     # gui
     chromium emacs zoom-us zathura
@@ -77,6 +78,7 @@ in
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
     lxappearance adapta-gtk-theme tango-icon-theme
+    feh scrot
 
     # applets
     networkmanagerapplet pavucontrol pasystray
@@ -87,7 +89,7 @@ in
     elmPackages.elm asciidoctor
 
     # containers
-    docker_compose kubectl virtualbox minikube27
+    docker_compose kubectl minikube27
   ];
 
   fonts.fonts = with pkgs; [
@@ -116,6 +118,13 @@ in
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+
+  services.cron = {
+    enable = true;
+    systemCronJobs = [
+      "15 * * * * root weather -m Wroclaw | grep Temperature | awk '{print $2}' > /var/weather"
+    ];
+  };
 
   # Enable sound.
   sound.enable = true;
@@ -151,8 +160,20 @@ in
   services.xserver.enable = true;
   services.xserver.layout = "pl";
   services.xserver.libinput.enable = true;
-  services.xserver.windowManager.i3.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
+
+  services.xserver.displayManager.slim = {
+    enable = true;
+    defaultUser = "mbilski";
+    theme = pkgs.fetchurl {
+      url = "https://github.com/edwtjo/nixos-black-theme/archive/v1.0.tar.gz";
+      sha256 = "13bm7k3p6k7yq47nba08bn48cfv536k4ipnwwp1q1l2ydlp85r9d";
+    };
+  };
+
+  services.xserver.windowManager.i3 = {
+    enable = true;
+    package = pkgs.i3-gaps;
+  };
 
   users.extraUsers.mbilski = {
     isNormalUser = true;
