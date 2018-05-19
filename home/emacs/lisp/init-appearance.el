@@ -12,6 +12,7 @@
 
 (setq-default
  indent-tabs-mode nil
+ fill-column 100
  tab-width 2
  js-indent-level 2
  c-basic-offset 2)

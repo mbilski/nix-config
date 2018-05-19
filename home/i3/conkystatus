@@ -39,6 +39,9 @@ TEXT
 
 # JSON for i3bar
 [
+    # MPC
+    { "full_text" : "${exec mpc | head -n1}" , "color" : "\#00aaff" },
+
     # CPU
     { "full_text" : "cpu: ${cpu}%", "color" : \
     ${if_match ${cpu}<90}"\#ffffff"${else}"\#ff0000"${endif}},
@@ -53,18 +56,11 @@ TEXT
     { "full_text": "up: ${upspeed wlp4s0}, down: ${downspeed wlp4s0}", "color": "\#ffffff" },
 
     # Disk
-    { "full_text" : "disk: ${fs_free /} free" , "color" : "\#ffffff" },
+    { "full_text" : "disk: ${fs_free /}" , "color" : "\#ffffff" },
 
-    # MPC
-    { "full_text" : "${exec mpc | head -n1}" , "color" : "\#00aaff" },
+    { "full_text": "wrocław: ${exec cat /var/weather}°C", "color": "\#ffffff"},
 
-    # Networking
-    # You might want to change wls2, ens3f1 ans enp0s20u1 to whatever
-    # your `ifconfig` command is saying.
-    #
-    # For most debian/ubuntu changing wls2 to wlan0, ens3f1 to eth0 and
-    # enp0s20u1 should work.
-    ${if_up wlp4s0} { "full_text" : " ${wireless_essid wlp4s0} ${addr wlp4s0}" , "color" : "\#00ff00" }, ${else}\
+    ${if_up wlp4s0} { "full_text" : "wifi: ${wireless_essid wlp4s0}" , "color" : "\#00ff00" }, ${else}\
         ${if_up enp0s31f6} { "full_text" : "eth0: ${addr enp0s31f6}" , "color" : "\#00ff00" }, ${else}\
            ${if_up enp0s20u1} { "full_text" : "USB: ${addr enp0s20u1}" , "color" :"\#00ff00" }, ${else}\
                 { "full_text" : "No Network" , "color" : "\#ff0000" },\
@@ -72,38 +68,33 @@ TEXT
         ${endif}\
     ${endif}\
 
-    # All the charges for the Battery
-    # This looks aweful because conky doesn't have an "else if"
-    # icon cheet sheet https://fortawesome.github.io/Font-Awesome/cheatsheet/
+    { "full_text" : "${time %A %d/%m/%y} US ${tztime America/Los_Angeles %H:%M} PL ${time %H:%M}" , "color" : "\#ffffff" },
+
+    # Volume
+    { "full_text" : " ${exec amixer get Master -M | grep -oE -m1 "[[:digit:]]*%"}", "color" : "\#ffffff"},
+
     ${if_match ${battery_percent}>15}\
         ${if_match ${battery_percent}>35}\
             ${if_match ${battery_percent}>60}\
                 ${if_match ${battery_percent}>80}\
                     # 100% ish
-                    { "full_text" : " ${battery_percent}%", "color" : "\#ffffff" }, \
+                    { "full_text" : " ${battery_percent}% ", "color" : "\#ffffff" } \
                 ${else}\
                     # less than 75%
-                    { "full_text" : " ${battery_percent}%", "color" : "\#ffffff" }, \
+                    { "full_text" : " ${battery_percent}% ", "color" : "\#ffffff" } \
                 ${endif}\
             ${else}\
                 # less than 50%
-                { "full_text" : " ${battery_percent}%", "color" : "\#ffffff" }, \
+                { "full_text" : " ${battery_percent}% ", "color" : "\#ffffff" } \
             ${endif}\
         ${else}\
             # 20ish % charge
-            { "full_text" : " ${battery_percent}%", "color" : "\#ffffff" }, \
+            { "full_text" : " ${battery_percent}% ", "color" : "\#ffffff" } \
         ${endif}\
     ${else}\
         #empty battery
-        { "full_text" : " ${battery_percent}%", "color" : "\#ff0000" }, \
+        { "full_text" : " ${battery_percent}% ", "color" : "\#ff0000" } \
     ${endif}\
-
-    # Volume
-    { "full_text" : " ${exec amixer get Master -M | grep -oE -m1 "[[:digit:]]*%"}", "color" : "\#ffffff"},
-    { "full_text": "Wrocław: ${exec cat /var/weather}°C", "color": "\#ffffff"},
-
-    # Time
-    { "full_text" : "${time %A %d/%m/%y} US ${tztime America/Los_Angeles %H:%M} PL ${time %H:%M} " , "color" : "\#ffffff" }
     ],
 
 ### output is printed to console -> i3bar

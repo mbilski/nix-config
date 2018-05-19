@@ -64,7 +64,6 @@ in
     EDITOR = "vim";
   };
 
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -81,12 +80,14 @@ in
     feh scrot
 
     # applets
-    networkmanagerapplet pavucontrol pasystray
+    networkmanagerapplet pavucontrol pasystray udiskie
 
     # dev
     scala maven jdk jetbrains.idea-community
     go godef dep glide gnumake protobuf3_5
     elmPackages.elm asciidoctor
+    ghc stack cabal-install gcc binutils-unwrapped
+    texlive.combined.scheme-full
 
     # containers
     docker_compose kubectl minikube27
@@ -136,6 +137,8 @@ in
       anonymousClients.allowedIpRanges = ["127.0.0.1"];
     };
   };
+
+  services.udisks2.enable = true;
 
   services.mopidy = {
     enable = true;

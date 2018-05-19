@@ -1,2 +1,3 @@
+init-local.el
 secrets.nix
 hardware-configuration.nix
