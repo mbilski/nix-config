@@ -69,10 +69,10 @@ in
   environment.systemPackages = with pkgs; [
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
-    mpc_cli weather
+    mpc_cli weather jq
 
     # gui
-    chromium emacs zoom-us zathura
+    chromium emacs zoom-us zathura apache-directory-studio
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
@@ -90,7 +90,7 @@ in
     texlive.combined.scheme-full
 
     # containers
-    docker_compose kubectl minikube27
+    docker_compose kubectl kubernetes-helm minikube27
   ];
 
   fonts.fonts = with pkgs; [
@@ -191,10 +191,10 @@ in
   programs.zsh.promptInit = "";
   programs.zsh.interactiveShellInit = ''
     export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh/
+    ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
     ZSH_THEME="robbyrussell"
-    plugins=(git)
+    plugins=(git mvn helm docker kubectl)
     source $ZSH/oh-my-zsh.sh
-    source <(kubectl completion zsh)
     eval "$(fasd --init auto)"
     export GOROOT=${pkgs.go}/share/go
   '';

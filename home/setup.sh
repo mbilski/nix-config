@@ -27,3 +27,7 @@ ln -fs $PWD/i3/rofi $HOME/.config/rofi/config
 
 # vim
 ln -fs $PWD/vim/vimrc $HOME/.vimrc
+
+# xorg
+ln -fs $PWD/xorg/Xmodmap $HOME/.Xmodmap
+ln -fs $PWD/xorg/Xresources $HOME/.Xresources

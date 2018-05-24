@@ -40,7 +40,7 @@ TEXT
 # JSON for i3bar
 [
     # MPC
-    { "full_text" : "${exec mpc | head -n1}" , "color" : "\#00aaff" },
+    { "full_text" : "${exec mpc | head -n1 | grep -v "random: off"}" , "color" : "\#00aaff" },
 
     # CPU
     { "full_text" : "cpu: ${cpu}%", "color" : \

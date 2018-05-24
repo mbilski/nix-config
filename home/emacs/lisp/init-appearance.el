@@ -10,6 +10,8 @@
  auto-save-default nil
  sentence-end-double-space nil)
 
+(set-mouse-color "white")
+
 (setq-default
  indent-tabs-mode nil
  fill-column 100
