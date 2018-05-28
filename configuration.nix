@@ -12,6 +12,10 @@ let
   minikube27 = pkgs.callPackage ./pkgs/minikube27 {
     inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
   };
+  polybarWithExtras = pkgs.polybar.override {
+    i3Support = true;
+    mpdSupport = true;
+  };
 in
 {
   imports =
@@ -69,10 +73,10 @@ in
   environment.systemPackages = with pkgs; [
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
-    mpc_cli weather jq
+    mpc_cli weather jq polybarWithExtras
 
     # gui
-    chromium emacs zoom-us zathura apache-directory-studio
+    chromium firefox emacs zoom-us zathura apache-directory-studio
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
