@@ -74,9 +74,11 @@ in
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
     mpc_cli weather jq polybarWithExtras ntfs3g
+    neofetch
 
     # gui
     chromium firefox emacs zoom-us zathura apache-directory-studio
+    shotwell
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
