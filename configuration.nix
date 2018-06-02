@@ -35,18 +35,6 @@ in
     efiSupport = true;
   };
 
-  boot.loader.grub.extraEntries = ''
-    menuentry "Ubuntu" {
-      search --set=ubuntu --fs-uuid 7f0ad1e5-b890-494a-8613-871a095a5a6c
-      configfile "($ubuntu)/boot/grub/grub.cfg"
-    }
-  '';
-
-  fileSystems."/mnt/ubuntu" =
-    { device = "/dev/nvme0n1p5";
-      fsType = "ext4";
-    };
-
   nix.gc.automatic = true;
   nix.gc.dates = "weekly";
   nix.gc.options = "--delete-older-than 7d";
@@ -74,7 +62,7 @@ in
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
     mpc_cli weather jq polybarWithExtras ntfs3g
-    neofetch
+    neofetch tree psmisc sxiv
 
     # gui
     chromium firefox emacs zoom-us zathura apache-directory-studio
@@ -82,7 +70,7 @@ in
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
-    lxappearance adapta-gtk-theme tango-icon-theme
+    lxappearance adapta-gtk-theme papirus-icon-theme
     feh scrot
 
     # applets
@@ -111,7 +99,10 @@ in
     proggyfonts
     fontforge
     powerline-fonts
-    font-awesome-ttf
+    siji
+    unifont
+    nerdfonts
+    font-awesome_5
   ];
 
   # Enable the OpenSSH daemon.
@@ -198,7 +189,8 @@ in
   programs.zsh.interactiveShellInit = ''
     export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh/
     ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
-    ZSH_THEME="robbyrussell"
+    ZSH_CUSTOM=$HOME/.zsh
+    ZSH_THEME="gister"
     plugins=(git mvn helm docker kubectl)
     source $ZSH/oh-my-zsh.sh
     eval "$(fasd --init auto)"

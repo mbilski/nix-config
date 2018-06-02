@@ -125,6 +125,10 @@
 (use-package git-gutter
   :init (global-git-gutter-mode +1))
 
+;; linum-relative
+(use-package linum-relative
+  :init (linum-relative-global-mode))
+
 ;; server
 (load "server")
 (unless (server-running-p) (server-start))

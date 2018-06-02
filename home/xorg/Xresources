@@ -1,5 +1,7 @@
-URxvt.font: xft:Hack:size=10
 URxvt.scrollBar: false
+URxvt.font: xft:Hack:pixelsize=14:antialias=true:hinting=true,\
+            xft:Source Code Pro:pixelsize=14:style=medium:antialias=true,\
+            -*-unifont-*-*-*-*-*-*-*-*-*-*-*-*
 
 *.foreground: #F8F8F2
 *.background: #282A36

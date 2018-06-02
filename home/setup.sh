@@ -25,9 +25,15 @@ ln -fs $PWD/i3 $HOME/.i3
 mkdir -p $HOME/.config/rofi
 ln -fs $PWD/i3/rofi $HOME/.config/rofi/config
 
+# polybar
+ln $PWD/polybar $HOME/.config/polybar
+
 # vim
 ln -fs $PWD/vim/vimrc $HOME/.vimrc
 
 # xorg
 ln -fs $PWD/xorg/Xmodmap $HOME/.Xmodmap
 ln -fs $PWD/xorg/Xresources $HOME/.Xresources
+
+# zsh
+ln -fs $PWD/zsh $HOME/.zsh
