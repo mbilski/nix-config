@@ -9,10 +9,10 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #222
+background = #222222
 background-alt = #444
 ;foreground = ${xrdb:color7:#222}
-foreground = #dfdfdf
+foreground = #f8f8f2
 foreground-alt = #dfdfdf
 underline = #666
 primary = #ffb52a
@@ -52,7 +52,7 @@ font-5 = "Font Awesome 5 Brands:pixelsize=8;1"
 
 modules-left = i3 mpd
 modules-center = xwindow
-modules-right = filesystem xbacklight volume cpu memory wlan wlan-up wlan-down battery date
+modules-right = filesystem xbacklight volume cpu memory wlan wlan-down battery date
 
 tray-position = right
 tray-padding = 2
@@ -196,7 +196,7 @@ type = internal/cpu
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${colors.underline}
+format-underline = #66cc99
 label = %percentage:2%%
 
 [module/memory]
@@ -204,7 +204,7 @@ type = internal/memory
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${colors.underline}
+format-underline = #bc92f8
 label = %gb_used%
 
 [module/wlan-up]
@@ -214,7 +214,7 @@ interval = 3.0
 
 format-connected = <label-connected>
 format-connected-prefix = " "
-format-connected-underline = ${colors.underline}
+format-connected-underline = #148ebe
 label-connected = %upspeed%
 
 [module/wlan-down]
@@ -224,7 +224,7 @@ interval = 3.0
 
 format-connected = <label-connected>
 format-connected-prefix = " "
-format-connected-underline = ${colors.underline}
+format-connected-underline = #148ebe
 label-connected = %downspeed%
 
 [module/wlan]
@@ -233,7 +233,7 @@ interface = wlp4s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-format-connected-underline = ${colors.underline}
+format-connected-underline = #eeeeee
 label-connected = %essid%
 
 format-disconnected =
@@ -277,7 +277,7 @@ time-alt = %H:%M:%S
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${colors.underline}
+format-underline = #ff4279
 
 label = %date% %time%
 
@@ -315,16 +315,16 @@ battery = BAT1
 adapter = ADP1
 full-at = 99
 
-format-underline = ${colors.underline}
+format-underline = #fff85a
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = ${colors.underline}
+format-charging-underline = #fff85a
 
 format-discharging = <ramp-capacity> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 
 format-full-prefix = " "
 format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${colors.underline}
+format-full-underline = #fff85a
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
