@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 let
@@ -67,10 +63,11 @@ in
     wget xsel vim tmux git tig fasd openvpn unzip zip
     mpc_cli weather jq polybarWithExtras ntfs3g
     neofetch tree psmisc sxiv urxvt_font_size
+    gnupg cacert
 
     # gui
     chromium firefox emacs zoom-us zathura apache-directory-studio
-    shotwell
+    shotwell transmission-gtk vlc arandr
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
@@ -81,14 +78,14 @@ in
     networkmanagerapplet pavucontrol pasystray udiskie
 
     # dev
-    scala maven jdk jetbrains.idea-community
+    scala sbt maven jdk jetbrains.idea-community
     go godef dep glide gnumake protobuf3_5
     elmPackages.elm asciidoctor
     ghc stack cabal-install gcc binutils-unwrapped
     texlive.combined.scheme-full
 
     # containers
-    docker_compose kubectl kubernetes-helm minikube27
+    docker_compose kubectl kubernetes-helm minikube25
   ];
 
   fonts.fonts = with pkgs; [

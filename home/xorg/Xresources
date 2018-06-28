@@ -1,6 +1,6 @@
 URxvt.scrollBar: false
-URxvt.font: xft:Hack:pixelsize=14:antialias=true:hinting=true,\
-            xft:Source Code Pro:pixelsize=14:style=medium:antialias=true,\
+URxvt.font: xft:Hack:size=10:antialias=true:hinting=true,\
+            xft:Source Code Pro:size=10:style=medium:antialias=true,\
             -*-unifont-*-*-*-*-*-*-*-*-*-*-*-*
 
 *.foreground: #F8F8F2
@@ -27,5 +27,5 @@ Xft.antialias: true
 Xft.hinting:   true
 Xft.rgba:      rgb
 Xft.hintstyle: hintfull
-Xft.dpi:       96
+Xft.dpi:       116
 ! }}}

@@ -13,4 +13,5 @@
 (require 'init-editing)
 (require 'init-elm)
 (require 'init-go)
+(require 'init-scala)
 (require 'init-others)

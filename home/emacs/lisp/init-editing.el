@@ -37,6 +37,10 @@
             (interactive)
             (evil-scroll-down nil)))
 
+;; multiple cursors
+(use-package evil-mc)
+(global-evil-mc-mode  1)
+
 ;; helm
 (use-package helm)
 
@@ -120,6 +124,10 @@
 ;; windmove
 (use-package windmove
   :init (windmove-default-keybindings))
+
+;;
+(use-package window-numbering
+  :init (window-numbering-mode))
 
 ;; git-gutter
 (use-package git-gutter

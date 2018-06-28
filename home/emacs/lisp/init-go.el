@@ -26,7 +26,7 @@
         (exec-path-from-shell-copy-env "GOPATH"))
 
 (add-hook 'go-mode-hook (lambda ()
-                          (company-mode)
-                          (set (make-local-variable 'company-backends) '((company-go company-ctags company-capf company-abbrev company-dabbrev-code)))))
+                          (set (make-local-variable 'company-backends) '(company-go))
+                          (company-mode)))
 
 (provide 'init-go)
