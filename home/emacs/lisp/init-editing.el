@@ -177,7 +177,6 @@
 (global-set-key (kbd "<S-up>") 'move-text-up)
 (global-set-key (kbd "<S-down>") 'move-text-down)
 
-(global-set-key (kbd "M-n") 'next-error)
 (global-set-key (kbd "M-]") 'next-buffer)
 (global-set-key (kbd "M-[") 'previous-buffer)
 

@@ -38,6 +38,7 @@ in
   networking.hostName = "t470";
   networking.networkmanager.enable = true;
   networking.extraHosts = "
+    127.0.0.1 t470
     127.0.0.1 local.cloudentity.com
     127.0.0.1 cloudentity.local.cloudentity.com
   ";
@@ -63,7 +64,7 @@ in
     wget xsel vim tmux git tig fasd openvpn unzip zip
     mpc_cli weather jq polybarWithExtras ntfs3g
     neofetch tree psmisc sxiv urxvt_font_size
-    gnupg cacert
+    gnupg cacert graphviz openssl
 
     # gui
     chromium firefox emacs zoom-us zathura apache-directory-studio
