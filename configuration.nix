@@ -2,15 +2,21 @@
 
 let
   secrets = import ./secrets.nix;
+
   minikube25 = pkgs.callPackage ./pkgs/minikube25 {
     inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
   };
+
   minikube27 = pkgs.callPackage ./pkgs/minikube27 {
     inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
   };
+
   polybarWithExtras = pkgs.polybar.override {
     i3Support = true;
     mpdSupport = true;
+  };
+
+  rdkafka0114 = pkgs.callPackage ./pkgs/rdkafka0114 {
   };
 in
 {
@@ -64,11 +70,11 @@ in
     wget xsel vim tmux git tig fasd openvpn unzip zip
     mpc_cli weather jq polybarWithExtras ntfs3g
     neofetch tree psmisc sxiv urxvt_font_size
-    gnupg cacert graphviz openssl
+    gnupg cacert graphviz openssl rdkafka0114 pkgconfig
 
     # gui
     chromium firefox emacs zoom-us zathura apache-directory-studio
-    shotwell transmission-gtk vlc arandr
+    shotwell transmission-gtk vlc arandr xfce.thunar
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
