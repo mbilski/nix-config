@@ -25,7 +25,9 @@ in
       ./hardware-configuration.nix
     ];
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -75,6 +77,7 @@ in
     # gui
     chromium firefox emacs zoom-us zathura apache-directory-studio
     shotwell transmission-gtk vlc arandr xfce.thunar
+    slack libreoffice
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
