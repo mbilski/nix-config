@@ -190,6 +190,13 @@
     (condition-case nil (scroll-down)
       (beginning-of-buffer (goto-char (point-min))))))
 
+;; indentation
+(defun indent-buffer ()
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
+(global-set-key (kbd "C-c <tab>") 'indent-buffer)
+
 ;; hooks
 (add-hook 'prog-mode-hook
   (lambda ()

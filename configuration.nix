@@ -88,11 +88,23 @@ in
     networkmanagerapplet pavucontrol pasystray udiskie
 
     # dev
+    ## java scala
     scala sbt maven jdk jetbrains.idea-community
+
+    ## go
     go godef dep glide gnumake protobuf3_5
+
+    ## elm
     elmPackages.elm asciidoctor
+
+    ## haskell
     ghc stack cabal-install gcc binutils-unwrapped
+
+    ## latex
     texlive.combined.scheme-full
+
+    ## rust
+    rustup rustracer
 
     # containers
     docker_compose kubectl kubernetes-helm minikube25
