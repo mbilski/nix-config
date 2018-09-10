@@ -11,12 +11,16 @@ let
     inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
   };
 
-  polybarWithExtras = pkgs.polybar.override {
-    i3Support = true;
-    mpdSupport = true;
+  minikube28 = pkgs.callPackage ./pkgs/minikube28 {
+    inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
   };
 
   rdkafka0114 = pkgs.callPackage ./pkgs/rdkafka0114 {
+  };
+
+  polybarWithExtras = pkgs.polybar.override {
+    i3Support = true;
+    mpdSupport = true;
   };
 in
 {
@@ -49,6 +53,7 @@ in
     127.0.0.1 t470
     127.0.0.1 local.cloudentity.com
     127.0.0.1 cloudentity.local.cloudentity.com
+    10.50.2.78 jenkins.cloudentity.com
   ";
 
   # Select internationalisation properties.
@@ -73,6 +78,7 @@ in
     mpc_cli weather jq polybarWithExtras ntfs3g
     neofetch tree psmisc sxiv urxvt_font_size
     gnupg cacert graphviz openssl rdkafka0114 pkgconfig
+    shellcheck
 
     # gui
     chromium firefox emacs zoom-us zathura apache-directory-studio
@@ -100,14 +106,11 @@ in
     ## haskell
     ghc stack cabal-install gcc binutils-unwrapped
 
-    ## latex
-    texlive.combined.scheme-full
-
     ## rust
     rustup rustracer
 
     # containers
-    docker_compose kubectl kubernetes-helm minikube25
+    docker_compose kubectl kubernetes-helm minikube28
   ];
 
   fonts.fonts = with pkgs; [
