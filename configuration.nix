@@ -98,7 +98,7 @@ in
     scala sbt maven jdk jetbrains.idea-community
 
     ## go
-    go godef dep glide gnumake protobuf3_5
+    go godef dep glide gnumake protobuf3_5 gotools
 
     ## elm
     elmPackages.elm asciidoctor
@@ -212,6 +212,8 @@ in
 
   programs.zsh.enable = true;
   programs.zsh.promptInit = "";
+  programs.zsh.enableSyntaxHighlighting = true;
+  programs.zsh.enableAutosuggestions = true;
   programs.zsh.interactiveShellInit = ''
     export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh/
     ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
