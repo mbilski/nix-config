@@ -3,14 +3,6 @@
 let
   secrets = import ./secrets.nix;
 
-  minikube25 = pkgs.callPackage ./pkgs/minikube25 {
-    inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
-  };
-
-  minikube27 = pkgs.callPackage ./pkgs/minikube27 {
-    inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
-  };
-
   minikube28 = pkgs.callPackage ./pkgs/minikube28 {
     inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
   };
@@ -78,11 +70,11 @@ in
     mpc_cli weather jq polybarWithExtras ntfs3g
     neofetch tree psmisc sxiv urxvt_font_size
     gnupg cacert graphviz openssl rdkafka0114 pkgconfig
-    shellcheck
+    shellcheck weechat htop ctop
 
     # gui
-    chromium firefox emacs zoom-us zathura apache-directory-studio
-    shotwell transmission-gtk vlc arandr xfce.thunar
+    firefox emacs zoom-us zathura
+    shotwell transmission-gtk vlc xfce.thunar
     slack libreoffice
 
     # xserver
@@ -108,6 +100,9 @@ in
 
     ## rust
     rustup rustracer
+
+    ## python
+    (python27.withPackages(ps: with ps; [ websocket_client ]))
 
     # containers
     docker_compose kubectl kubernetes-helm minikube28
@@ -142,13 +137,6 @@ in
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  services.cron = {
-    enable = true;
-    systemCronJobs = [
-      "15 * * * * root weather -m Wroclaw | grep Temperature | awk '{print $2}' > /var/weather"
-    ];
-  };
 
   # Enable sound.
   sound.enable = true;
@@ -212,7 +200,7 @@ in
 
   programs.zsh.enable = true;
   programs.zsh.promptInit = "";
-  programs.zsh.enableSyntaxHighlighting = true;
+  programs.zsh.syntaxHighlighting.enable = true;
   programs.zsh.enableAutosuggestions = true;
   programs.zsh.interactiveShellInit = ''
     export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh/
