@@ -25,7 +25,7 @@ smart_borders on
 exec --no-startup-id xmodmap ~/.Xmodmap
 #exec --no-startup-id xsetroot -solid "#333333"
 exec --no-startup-id feh --bg-scale ~/.i3/wallpaper.jpg
-exec --no-startup-id pasystray
+#exec --no-startup-id pasystray
 exec --no-startup-id nm-applet
 
 # volume

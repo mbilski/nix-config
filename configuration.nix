@@ -3,13 +3,6 @@
 let
   secrets = import ./secrets.nix;
 
-  minikube28 = pkgs.callPackage ./pkgs/minikube28 {
-    inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
-  };
-
-  rdkafka0114 = pkgs.callPackage ./pkgs/rdkafka0114 {
-  };
-
   polybarWithExtras = pkgs.polybar.override {
     i3Support = true;
     mpdSupport = true;
@@ -69,13 +62,13 @@ in
     wget xsel vim tmux git tig fasd openvpn unzip zip
     mpc_cli weather jq polybarWithExtras ntfs3g
     neofetch tree psmisc sxiv urxvt_font_size
-    gnupg cacert graphviz openssl rdkafka0114 pkgconfig
+    gnupg cacert graphviz openssl rdkafka pkgconfig
     shellcheck weechat htop ctop
 
     # gui
-    firefox emacs zoom-us zathura
+    firefox emacs zoom-us #zathura
     shotwell transmission-gtk vlc xfce.thunar
-    slack libreoffice
+    slack libreoffice gparted
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
@@ -105,7 +98,7 @@ in
     (python27.withPackages(ps: with ps; [ websocket_client ]))
 
     # containers
-    docker_compose kubectl kubernetes-helm minikube28
+    docker_compose kubectl minikube
   ];
 
   fonts.fonts = with pkgs; [
@@ -133,7 +126,7 @@ in
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -150,6 +143,9 @@ in
   };
 
   services.udisks2.enable = true;
+
+  #services.kubernetes.roles = ["master" "node"];
+  #services.kubernetes.addons.dashboard.enable = true;
 
   services.mopidy = {
     enable = true;
@@ -193,7 +189,7 @@ in
     isNormalUser = true;
     home = "/home/mbilski";
     description = "Mateusz Bilski";
-    extraGroups = ["wheel" "networkmanager" "audio" "docker"];
+    extraGroups = ["wheel" "networkmanager" "audio" "docker" "kubernetes"];
     uid = 1000;
     shell = pkgs.zsh;
   };
@@ -201,7 +197,7 @@ in
   programs.zsh.enable = true;
   programs.zsh.promptInit = "";
   programs.zsh.syntaxHighlighting.enable = true;
-  programs.zsh.enableAutosuggestions = true;
+  programs.zsh.autosuggestions.enable = true;
   programs.zsh.interactiveShellInit = ''
     export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh/
     ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
