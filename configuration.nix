@@ -63,7 +63,7 @@ in
     mpc_cli weather jq polybarWithExtras ntfs3g
     neofetch tree psmisc sxiv urxvt_font_size
     gnupg cacert graphviz openssl rdkafka pkgconfig
-    shellcheck weechat htop ctop
+    shellcheck weechat htop ctop cfssl
 
     # gui
     firefox emacs zoom-us #zathura
@@ -144,8 +144,62 @@ in
 
   services.udisks2.enable = true;
 
-  #services.kubernetes.roles = ["master" "node"];
-  #services.kubernetes.addons.dashboard.enable = true;
+  services.kubernetes = {
+    roles = ["master" "node"];
+    addons.dashboard.enable = true;
+
+    caFile = "/etc/nixos/keys/ca.pem";
+
+    etcd = {
+      caFile = "/etc/nixos/keys/ca.pem";
+      certFile = "/etc/nixos/keys/kubernetes.pem";
+      keyFile = "/etc/nixos/keys/kubernetes-key.pem";
+    };
+
+    apiserver = {
+      authorizationMode = ["AlwaysAllow"];
+      clientCaFile = "/etc/nixos/keys/ca.pem";
+      kubeletClientCaFile = "/etc/nixos/keys/ca.pem";
+      kubeletClientCertFile = "/etc/nixos/keys/worker.pem";
+      kubeletClientKeyFile = "/etc/nixos/keys/worker-key.pem";
+      serviceAccountKeyFile = "/etc/nixos/keys/service-account-key.pem";
+      tlsCertFile = "/etc/nixos/keys/kubernetes.pem";
+      tlsKeyFile = "/etc/nixos/keys/kubernetes-key.pem";
+    };
+
+    controllerManager = {
+      kubeconfig.caFile = "/etc/nixos/keys/ca.pem";
+      kubeconfig.certFile = "/etc/nixos/keys/kube-controller-manager.pem";
+      kubeconfig.keyFile = "/etc/nixos/keys/kube-controller-manager-key.pem";
+      rootCaFile = "/etc/nixos/keys/ca.pem";
+      serviceAccountKeyFile = "/etc/nixos/keys/service-account-key.pem";
+    };
+
+    kubeconfig = {
+      certFile = "/etc/nixos/keys/admin.pem";
+      caFile = "/etc/nixos/keys/ca.pem";
+      keyFile = "/etc/nixos/keys/admin-key.pem";
+    };
+
+    kubelet = {
+      clientCaFile = "/etc/nixos/keys/ca.pem";
+      kubeconfig = {
+        caFile = "/etc/nixos/keys/ca.pem";
+        certFile = "/etc/nixos/keys/worker.pem";
+        keyFile = "/etc/nixos/keys/worker-key.pem";
+      };
+      tlsCertFile = "/etc/nixos/keys/worker.pem";
+      tlsKeyFile = "/etc/nixos/keys/worker-key.pem";
+    };
+
+    scheduler = {
+      kubeconfig = {
+        caFile = "/etc/nixos/keys/ca.pem";
+        certFile = "/etc/nixos/keys/kube-scheduler.pem";
+        keyFile = "/etc/nixos/keys/kube-scheduler-key.pem";
+      };
+    };
+  };
 
   services.mopidy = {
     enable = true;
