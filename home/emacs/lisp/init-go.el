@@ -17,15 +17,19 @@
 (add-hook 'go-mode-hook 'custom-go-mode-hook)
 
 (evil-define-key 'normal go-mode-map (kbd "M-.") 'godef-jump)
+(evil-define-key 'normal go-mode-map (kbd "M-q") 'next-error)
 
 ;; exec-path-from-shell
 (use-package exec-path-from-shell
   :init (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-env "GOPATH"))
 
-(add-hook 'go-mode-hook (lambda ()
-                          (set (make-local-variable 'company-backends) '(company-go))
-                          (setq flycheck-disabled-checkers '(go-megacheck go-unconvert go-errcheck))
-                          (company-mode)))
+(add-hook 'go-mode-hook (lambda () (setq flycheck-disabled-checkers '(go-megacheck go-unconvert go-errcheck))))
+
+(require 'go-autocomplete)
+(require 'auto-complete-config)
+(ac-config-default)
+(setq ac-auto-start nil)
+(ac-set-trigger-key "TAB")
 
 (provide 'init-go)

@@ -65,6 +65,8 @@
            ("M-F" . projectile-find-file-in-known-projects)
            ("M-r" . helm-projectile-grep)))
 
+(global-set-key (kbd "C-c p p") 'helm-projectile-switch-project)
+
 (use-package helm-projectile
   :init
   (helm-projectile-on))
@@ -161,13 +163,13 @@
   (sp-pair "{" "}" :wrap "C-{"))
 
 ;; completions
- (use-package company
-   :diminish company-mode
-   :commands company-mode
-   :init
-   (setq
-    company-idle-delay 0
-    company-minimum-prefix-length 2)
+(use-package company
+  :diminish company-mode
+  :commands company-mode
+  :init
+  (setq
+   company-idle-delay 0
+   company-minimum-prefix-length 2)
    :config)
 
 ;; global keybindings
@@ -200,7 +202,6 @@
 ;; hooks
 (add-hook 'prog-mode-hook
   (lambda ()
-    (global-company-mode)
     (rainbow-delimiters-mode)
     (smartparens-global-mode)))
 

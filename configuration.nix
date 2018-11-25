@@ -7,6 +7,10 @@ let
     i3Support = true;
     mpdSupport = true;
   };
+
+  minikube28 = pkgs.callPackage ./pkgs/minikube28 {
+    inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
+  };
 in
 {
   imports =
@@ -32,14 +36,17 @@ in
   nix.gc.dates = "weekly";
   nix.gc.options = "--delete-older-than 7d";
 
-  networking.hostName = "t470";
-  networking.networkmanager.enable = true;
-  networking.extraHosts = "
-    127.0.0.1 t470
-    127.0.0.1 local.cloudentity.com
-    127.0.0.1 cloudentity.local.cloudentity.com
-    10.50.2.78 jenkins.cloudentity.com
-  ";
+  networking = {
+    nameservers = [ "8.8.8.8" "35.168.75.32" ];
+    hostName = "t470";
+    networkmanager.enable = true;
+    extraHosts = "
+      127.0.0.1 t470
+      127.0.0.1 local.cloudentity.com
+      127.0.0.1 cloudentity.local.cloudentity.com
+      10.50.2.78 jenkins.cloudentity.com
+    ";
+  };
 
   # Select internationalisation properties.
   i18n = {
@@ -63,12 +70,12 @@ in
     mpc_cli weather jq polybarWithExtras ntfs3g
     neofetch tree psmisc sxiv urxvt_font_size
     gnupg cacert graphviz openssl rdkafka pkgconfig
-    shellcheck weechat htop ctop cfssl
+    shellcheck weechat htop ctop cfssl wrk
 
     # gui
-    firefox emacs zoom-us #zathura
+    firefox emacs zoom-us zathura
     shotwell transmission-gtk vlc xfce.thunar
-    slack libreoffice gparted
+    slack gparted
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
@@ -88,6 +95,9 @@ in
     ## elm
     elmPackages.elm asciidoctor
 
+    ## js
+    nodejs-8_x
+
     ## haskell
     ghc stack cabal-install gcc binutils-unwrapped
 
@@ -98,7 +108,7 @@ in
     (python27.withPackages(ps: with ps; [ websocket_client ]))
 
     # containers
-    docker_compose kubectl minikube
+    docker_compose kubectl minikube28 kubernetes-helm
   ];
 
   fonts.fonts = with pkgs; [
@@ -145,8 +155,8 @@ in
   services.udisks2.enable = true;
 
   services.kubernetes = {
-    roles = ["master" "node"];
-    addons.dashboard.enable = true;
+    #roles = ["master" "node"];
+    #addons.dashboard.enable = true;
 
     caFile = "/etc/nixos/keys/ca.pem";
 
@@ -208,7 +218,7 @@ in
       [spotify]
       enabled = true
       username = ${secrets.spotify.username}
-      password = ${secrets.spotify.password} 
+      password = ${secrets.spotify.password}
 
       client_id = ${secrets.spotify.clientId}
       client_secret = ${secrets.spotify.clientSecret}
@@ -264,6 +274,7 @@ in
   '';
 
   virtualisation.docker.enable = true;
+
   virtualisation.virtualbox.host = {
       enable = true;
       headless = true;
