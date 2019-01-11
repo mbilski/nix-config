@@ -42,8 +42,6 @@ in
     networkmanager.enable = true;
     extraHosts = "
       127.0.0.1 t470
-      127.0.0.1 local.cloudentity.com
-      127.0.0.1 cloudentity.local.cloudentity.com
       10.50.2.78 jenkins.cloudentity.com
     ";
   };
@@ -67,15 +65,16 @@ in
   environment.systemPackages = with pkgs; [
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
-    mpc_cli weather jq polybarWithExtras ntfs3g
+    mpc_cli jq polybarWithExtras ntfs3g exfat
     neofetch tree psmisc sxiv urxvt_font_size
-    gnupg cacert graphviz openssl rdkafka pkgconfig
-    shellcheck weechat htop ctop cfssl wrk
+    gnupg cacert graphviz openssl pkgconfig
+    shellcheck weechat htop ctop cfssl wrk peek
+    iptables ranger bat highlight dialog
+    neomutt offlineimap msmtp
 
     # gui
-    firefox emacs zoom-us zathura
-    shotwell transmission-gtk vlc xfce.thunar
-    slack gparted
+    google-chrome firefox emacs zoom-us zathura
+    shotwell transmission-gtk vlc slack gparted
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
