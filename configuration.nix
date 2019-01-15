@@ -70,7 +70,7 @@ in
     gnupg cacert graphviz openssl pkgconfig
     shellcheck weechat htop ctop cfssl wrk peek
     iptables ranger bat highlight dialog
-    neomutt offlineimap msmtp
+    yq fzf
 
     # gui
     google-chrome firefox emacs zoom-us zathura
@@ -268,6 +268,7 @@ in
     ZSH_THEME="gister"
     plugins=(git mvn helm docker kubectl)
     source $ZSH/oh-my-zsh.sh
+    source "$(fzf-share)/key-bindings.zsh"
     eval "$(fasd --init auto)"
     export GOROOT=${pkgs.go}/share/go
   '';

@@ -3,10 +3,6 @@ URxvt.font: xft:Hack:size=10:antialias=true:hinting=true,\
             xft:Source Code Pro:size=10:style=medium:antialias=true,\
             -*-unifont-*-*-*-*-*-*-*-*-*-*-*-*
 
-URxvt.perl-ext-common: default,matcher
-URxvt.url-launcher: /usr/bin/xdg-open
-URxvt.matcher.button: 1
-
 *.foreground: #F8F8F2
 *.background: #282A36
 *.color0:     #000000
@@ -26,10 +22,10 @@ URxvt.matcher.button: 1
 *.color7:     #BFBFBF
 *.color15:    #E6E6E6
 
-! Fonts {{{
-Xft.antialias: true
-Xft.hinting:   true
-Xft.rgba:      rgb
+Xft.dpi: 96
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
 Xft.hintstyle: hintfull
-Xft.dpi:       96
-! }}}
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb

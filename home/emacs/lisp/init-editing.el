@@ -11,6 +11,10 @@
 (use-package magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 
+;; ranger
+(use-package ranger)
+(global-set-key (kbd "C-c n") 'ranger)
+
 ;; evil
 (use-package evil
   :init (evil-mode 1))
@@ -90,32 +94,6 @@
 (require 'expand-region)
 (global-set-key (kbd "M-e") 'er/expand-region)
 (global-set-key (kbd "M-E") 'er/contract-region)
-
-;; neotree
- (use-package neotree
-   :init (setq neo-smart-open t)
-         (setq neo-autorefresh nil)
-         (setq neo-theme 'arrow))
-
-(defun neotree-project-dir ()
-  "Open NeoTree using the git root."
-  (interactive)
-  (let ((project-dir (projectile-project-root))
-        (file-name (buffer-file-name)))
-    (neotree-toggle)
-    (if project-dir
-        (if (neo-global--window-exists-p)
-            (progn
-              (neotree-dir project-dir)
-              (neotree-find file-name)))
-              (message "Could not find git project root."))))
-
-(global-set-key (kbd "C-c n") 'neotree-project-dir)
-
-(evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-(evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-enter)
-(evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-(evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
 
 ;; which-key
 (use-package which-key
