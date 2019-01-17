@@ -70,7 +70,7 @@ in
     gnupg cacert graphviz openssl pkgconfig
     shellcheck weechat htop ctop cfssl wrk peek
     iptables ranger bat highlight dialog
-    yq fzf
+    yq fzf autorandr silver-searcher
 
     # gui
     google-chrome firefox emacs zoom-us zathura

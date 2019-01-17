@@ -47,6 +47,7 @@
 
 ;; helm
 (use-package helm)
+(use-package helm-ag)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-m") 'helm-M-x)
@@ -63,11 +64,13 @@
 ;; projectile
 (use-package projectile
   :demand
-  :init (setq projectile-use-git-grep t)
+  :init (setq
+         projectile-use-git-grep t
+         helm-ag-insert-at-point 'word)
   :config (projectile-global-mode t)
   :bind   (("M-f" . projectile-find-file)
            ("M-F" . projectile-find-file-in-known-projects)
-           ("M-r" . helm-projectile-grep)))
+           ("M-r" . helm-projectile-ag)))
 
 (global-set-key (kbd "C-c p p") 'helm-projectile-switch-project)
 
