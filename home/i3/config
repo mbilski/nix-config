@@ -17,10 +17,8 @@ hide_edge_borders both
 for_window [class="^.*"] border pixel 1
 new_window 1pixel
 
-gaps inner 0
-gaps outer 0
-smart_gaps on
-smart_borders on
+gaps inner 10
+gaps outer 10
 
 exec --no-startup-id xmodmap ~/.Xmodmap
 #exec --no-startup-id xsetroot -solid "#333333"

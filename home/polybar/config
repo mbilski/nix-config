@@ -52,7 +52,7 @@ font-5 = "Font Awesome 5 Brands:pixelsize=8;1"
 
 modules-left = i3 mpd
 modules-center = xwindow
-modules-right = filesystem xbacklight volume cpu memory wlan wlan-down battery date
+modules-right = xbacklight volume cpu memory filesystem battery wlan date
 
 tray-position = right
 tray-padding = 2
@@ -99,6 +99,7 @@ interval = 25
 
 mount-0 = /
 
+format-mounted-underline = #2a74ff
 label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
@@ -158,7 +159,7 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 [module/mpd]
 type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+format-online = <icon-prev> <icon-stop> <toggle> <icon-next>   <label-song>
 
 icon-prev = 
 icon-stop = 
@@ -205,65 +206,22 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #bc92f8
-label = %gb_used%
-
-[module/wlan-up]
-type = internal/network
-interface = wlp4s0
-interval = 3.0
+label = %gb_used% %gb_swap_used%
 
 format-connected = <label-connected>
 format-connected-prefix = " "
-format-connected-underline = #148ebe
+format-connected-underline = #fff
 label-connected = %upspeed%
-
-[module/wlan-down]
-type = internal/network
-interface = wlp4s0
-interval = 3.0
-
-format-connected = <label-connected>
-format-connected-prefix = " "
-format-connected-underline = #148ebe
-label-connected = %downspeed%
 
 [module/wlan]
 type = internal/network
 interface = wlp4s0
 interval = 3.0
 
-format-connected = <ramp-signal> <label-connected>
-format-connected-underline = #eeeeee
-label-connected = %essid%
-
-format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
-
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.foreground-alt}
-
-[module/eth]
-type = internal/network
-interface = enp0s31f6
-interval = 3.0
-
-format-connected-underline = #55aa55
-format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
-
-format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
+format-connected = <label-connected>
+format-connected-prefix = " "
+format-connected-underline = #fff
+label-connected = %essid%  %downspeed%  %upspeed%
 
 [module/date]
 type = internal/date

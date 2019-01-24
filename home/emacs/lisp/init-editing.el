@@ -66,6 +66,7 @@
   :demand
   :init (setq
          projectile-use-git-grep t
+         projectile-enable-caching t
          helm-ag-insert-at-point 'word)
   :config (projectile-global-mode t)
   :bind   (("M-f" . projectile-find-file)
