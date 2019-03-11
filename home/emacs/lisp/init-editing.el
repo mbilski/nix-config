@@ -11,6 +11,10 @@
 (use-package magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 
+;; company
+(use-package company :ensure t)
+(add-hook 'after-init-hook 'global-company-mode)
+
 ;; ranger
 (use-package ranger)
 (global-set-key (kbd "C-c n") 'ranger)
@@ -41,9 +45,8 @@
             (interactive)
             (evil-scroll-down nil)))
 
-;; multiple cursors
-(use-package evil-mc)
-(global-evil-mc-mode  1)
+;; smartparent
+(use-package smartparens :ensure t)
 
 ;; helm
 (use-package helm)
@@ -66,7 +69,6 @@
   :demand
   :init (setq
          projectile-use-git-grep t
-         projectile-enable-caching t
          helm-ag-insert-at-point 'word)
   :config (projectile-global-mode t)
   :bind   (("M-f" . projectile-find-file)
@@ -80,12 +82,6 @@
   (helm-projectile-on))
 
 (setq projectile-switch-project-action 'helm-projectile-find-file)
-
-;; undo
-(use-package undo-tree
-  :diminish undo-tree-mode
-  :config (global-undo-tree-mode)
-  :bind ("M-/" . undo-tree-visualize))
 
 ;; zoom-window
 (use-package zoom-window
@@ -105,17 +101,9 @@
 
 (setq which-key-idle-delay 0.5)
 
-;; windmove
-(use-package windmove
-  :init (windmove-default-keybindings))
-
 ;;
 (use-package window-numbering
   :init (window-numbering-mode))
-
-;; git-gutter
-(use-package git-gutter
-  :init (global-git-gutter-mode +1))
 
 ;; linum-relative
 (use-package linum-relative
@@ -124,35 +112,6 @@
 ;; server
 (load "server")
 (unless (server-running-p) (server-start))
-
-;; smartparentheses
-(use-package smartparens
-  :diminish smartparens-mode
-  :commands
-  smartparens-strict-mode
-  smartparens-mode
-  sp-restrict-to-pairs-interactive
-  sp-local-pair
-  :init
-  (setq sp-interactive-dwim t)
-  :config
-  (require 'smartparens-config)
-  (sp-use-smartparens-bindings)
-
-  (sp-pair "(" ")" :wrap "C-(")
-  (sp-pair "[" "]" :wrap "s-[")
-  (sp-pair "\"" "\"" :wrap "C-\"")
-  (sp-pair "{" "}" :wrap "C-{"))
-
-;; completions
-(use-package company
-  :diminish company-mode
-  :commands company-mode
-  :init
-  (setq
-   company-idle-delay 0
-   company-minimum-prefix-length 2)
-   :config)
 
 ;; global keybindings
 (global-unset-key (kbd "C-z"))
@@ -184,7 +143,10 @@
 ;; hooks
 (add-hook 'prog-mode-hook
   (lambda ()
-    (rainbow-delimiters-mode)
-    (smartparens-global-mode)))
+    (rainbow-delimiters-mode)))
+
+(add-hook 'prog-mode-hook
+  (lambda ()
+    (smartparens-mode)))
 
 (provide 'init-editing)

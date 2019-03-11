@@ -24,6 +24,7 @@ in
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.tmpOnTmpfs = true;
 
   boot.loader.grub = {
     enable = true;
@@ -66,15 +67,17 @@ in
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
     mpc_cli jq polybarWithExtras ntfs3g exfat
-    neofetch tree psmisc sxiv urxvt_font_size
+    neofetch tree psmisc sxiv urxvt_font_size urxvt_perl
     gnupg cacert graphviz openssl pkgconfig
     shellcheck weechat htop ctop cfssl wrk peek
     iptables ranger bat highlight dialog
     yq fzf autorandr silver-searcher
+    pandoc
 
     # gui
     google-chrome firefox emacs zoom-us zathura
     shotwell transmission-gtk vlc slack gparted
+    chromedriver
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
@@ -107,7 +110,7 @@ in
     (python27.withPackages(ps: with ps; [ websocket_client ]))
 
     # containers
-    docker_compose kubectl minikube28 kubernetes-helm
+    docker_compose docker-machine kubectl minikube28 kubernetes-helm
   ];
 
   fonts.fonts = with pkgs; [
@@ -266,7 +269,7 @@ in
     ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
     ZSH_CUSTOM=$HOME/.zsh
     ZSH_THEME="gister"
-    plugins=(git mvn helm docker kubectl)
+    plugins=(git)
     source $ZSH/oh-my-zsh.sh
     source "$(fzf-share)/key-bindings.zsh"
     eval "$(fasd --init auto)"

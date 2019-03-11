@@ -3,8 +3,9 @@
 (use-package go-mode :ensure t)
 (use-package go-guru :ensure t)
 (use-package gotest :ensure t)
-
 (use-package protobuf-mode :ensure t)
+(use-package company-go :ensure t)
+(use-package go-eldoc :ensure t)
 
 (defun custom-go-mode-hook ()
   (setq gofmt-command "goimports")
@@ -24,12 +25,15 @@
   :init (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-env "GOPATH"))
 
+(add-hook 'go-mode-hook 'go-eldoc-setup)
+
 (add-hook 'go-mode-hook (lambda () (setq flycheck-disabled-checkers '(go-megacheck go-unconvert go-errcheck))))
 
-(require 'go-autocomplete)
-(require 'auto-complete-config)
-(ac-config-default)
-(setq ac-auto-start nil)
-(ac-set-trigger-key "TAB")
+(setq company-idle-delay .3)
+(setq company-echo-delay 0)
+
+(add-hook 'go-mode-hook (lambda ()
+                          (set (make-local-variable 'company-backends) '(company-go))
+                          (company-mode)))
 
 (provide 'init-go)
