@@ -20,6 +20,10 @@
 (evil-define-key 'normal go-mode-map (kbd "M-.") 'godef-jump)
 (evil-define-key 'normal go-mode-map (kbd "M-q") 'next-error)
 
+(use-package yasnippet)
+(yas-global-mode 1)
+(add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+
 ;; exec-path-from-shell
 (use-package exec-path-from-shell
   :init (exec-path-from-shell-initialize)
@@ -31,9 +35,11 @@
 
 (setq company-idle-delay .3)
 (setq company-echo-delay 0)
+(setq godoc-at-point-function 'godoc-gogetdoc)
+(electric-pair-mode 1)
 
 (add-hook 'go-mode-hook (lambda ()
-                          (set (make-local-variable 'company-backends) '(company-go))
+               0           (set (make-local-variable 'company-backends) '(company-go))
                           (company-mode)))
 
 (provide 'init-go)

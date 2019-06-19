@@ -44,6 +44,8 @@ in
     extraHosts = "
       127.0.0.1 t470
       10.50.2.78 jenkins.cloudentity.com
+      10.50.2.162 download.microperimeter.cloudentity.com
+      10.50.2.162 docs.cloudentity.com
     ";
   };
 
@@ -61,18 +63,20 @@ in
     EDITOR = "vim";
   };
 
+  programs.light.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
-    mpc_cli jq polybarWithExtras ntfs3g exfat
+    jq polybarWithExtras ntfs3g exfat
     neofetch tree psmisc sxiv urxvt_font_size urxvt_perl
     gnupg cacert graphviz openssl pkgconfig
     shellcheck weechat htop ctop cfssl wrk peek
     iptables ranger bat highlight dialog
     yq fzf autorandr silver-searcher
-    pandoc
+    spotify pgcli cmus cloc xclip bc vagrant hugo mplayer
 
     # gui
     google-chrome firefox emacs zoom-us zathura
@@ -82,7 +86,7 @@ in
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
     lxappearance adapta-gtk-theme papirus-icon-theme
-    feh scrot
+    feh scrot compton
 
     # applets
     networkmanagerapplet pavucontrol pasystray udiskie
@@ -107,7 +111,7 @@ in
     rustup rustracer
 
     ## python
-    (python27.withPackages(ps: with ps; [ websocket_client ]))
+    (python27.withPackages(ps: with ps; [ websocket_client livestreamer ]))
 
     # containers
     docker_compose docker-machine kubectl minikube28 kubernetes-helm
@@ -156,82 +160,6 @@ in
 
   services.udisks2.enable = true;
 
-  services.kubernetes = {
-    #roles = ["master" "node"];
-    #addons.dashboard.enable = true;
-
-    caFile = "/etc/nixos/keys/ca.pem";
-
-    etcd = {
-      caFile = "/etc/nixos/keys/ca.pem";
-      certFile = "/etc/nixos/keys/kubernetes.pem";
-      keyFile = "/etc/nixos/keys/kubernetes-key.pem";
-    };
-
-    apiserver = {
-      authorizationMode = ["AlwaysAllow"];
-      clientCaFile = "/etc/nixos/keys/ca.pem";
-      kubeletClientCaFile = "/etc/nixos/keys/ca.pem";
-      kubeletClientCertFile = "/etc/nixos/keys/worker.pem";
-      kubeletClientKeyFile = "/etc/nixos/keys/worker-key.pem";
-      serviceAccountKeyFile = "/etc/nixos/keys/service-account-key.pem";
-      tlsCertFile = "/etc/nixos/keys/kubernetes.pem";
-      tlsKeyFile = "/etc/nixos/keys/kubernetes-key.pem";
-    };
-
-    controllerManager = {
-      kubeconfig.caFile = "/etc/nixos/keys/ca.pem";
-      kubeconfig.certFile = "/etc/nixos/keys/kube-controller-manager.pem";
-      kubeconfig.keyFile = "/etc/nixos/keys/kube-controller-manager-key.pem";
-      rootCaFile = "/etc/nixos/keys/ca.pem";
-      serviceAccountKeyFile = "/etc/nixos/keys/service-account-key.pem";
-    };
-
-    kubeconfig = {
-      certFile = "/etc/nixos/keys/admin.pem";
-      caFile = "/etc/nixos/keys/ca.pem";
-      keyFile = "/etc/nixos/keys/admin-key.pem";
-    };
-
-    kubelet = {
-      clientCaFile = "/etc/nixos/keys/ca.pem";
-      kubeconfig = {
-        caFile = "/etc/nixos/keys/ca.pem";
-        certFile = "/etc/nixos/keys/worker.pem";
-        keyFile = "/etc/nixos/keys/worker-key.pem";
-      };
-      tlsCertFile = "/etc/nixos/keys/worker.pem";
-      tlsKeyFile = "/etc/nixos/keys/worker-key.pem";
-    };
-
-    scheduler = {
-      kubeconfig = {
-        caFile = "/etc/nixos/keys/ca.pem";
-        certFile = "/etc/nixos/keys/kube-scheduler.pem";
-        keyFile = "/etc/nixos/keys/kube-scheduler-key.pem";
-      };
-    };
-  };
-
-  services.mopidy = {
-    enable = true;
-    extensionPackages = [ pkgs.mopidy-spotify pkgs.mopidy-iris ];
-    configuration = ''
-      [spotify]
-      enabled = true
-      username = ${secrets.spotify.username}
-      password = ${secrets.spotify.password}
-
-      client_id = ${secrets.spotify.clientId}
-      client_secret = ${secrets.spotify.clientSecret}
-
-      bitrate = 320
-
-      [audio]
-      output = pulsesink server=127.0.0.1
-    '';
-  };
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.layout = "pl";
@@ -251,11 +179,13 @@ in
     package = pkgs.i3-gaps;
   };
 
+  users.groups.video = {};
+
   users.extraUsers.mbilski = {
     isNormalUser = true;
     home = "/home/mbilski";
     description = "Mateusz Bilski";
-    extraGroups = ["wheel" "networkmanager" "audio" "docker" "kubernetes"];
+    extraGroups = ["wheel" "networkmanager" "audio" "docker" "kubernetes" "video"];
     uid = 1000;
     shell = pkgs.zsh;
   };

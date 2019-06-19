@@ -22,17 +22,18 @@ gaps outer 10
 
 exec --no-startup-id xmodmap ~/.Xmodmap
 #exec --no-startup-id xsetroot -solid "#333333"
-exec --no-startup-id feh --bg-scale ~/.i3/wallpaper.jpg
+exec --no-startup-id feh --bg-scale ~/Downloads/4k-wallpaper-clouds-cropland-842711.jpg
 #exec --no-startup-id pasystray
 exec --no-startup-id nm-applet
+exec --no-startup-id compton --config /etc/nixos/home/i3/config.yaml -b
 
 # volume
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
 bindsym XF86AudioMute exec pactl set-sink-volume 0 -100%
 
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20
+bindsym XF86MonBrightnessUp exec light -A 5
+bindsym XF86MonBrightnessDown exec light -U 5
 
 bindsym XF86AudioPlay exec mpc play
 bindsym XF86AudioPause exec mpc pause

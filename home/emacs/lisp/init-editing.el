@@ -47,6 +47,7 @@
 
 ;; smartparent
 (use-package smartparens :ensure t)
+(global-set-key (kbd "M-l") 'sp-forward-sexp)
 
 ;; helm
 (use-package helm)
