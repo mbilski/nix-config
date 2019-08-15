@@ -6,7 +6,7 @@
                     ("org" . "http://orgmode.org/elpa/")
                     ("melpa" . "http://melpa.org/packages/")
                     ("melpa-stable" . "http://stable.melpa.org/packages/"))
- package-archive-priorities '(("melpa-stable" . 1)))
+ package-archive-priorities '(("melpa" . 1)))
 
 (package-initialize)
 
