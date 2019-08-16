@@ -35,10 +35,12 @@
   :init (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-env "GOPATH"))
 
-(add-hook 'go-mode-hook (lambda () (setq flycheck-disabled-checkers '(go-build go-megacheck go-unconvert go-errcheck))))
+(add-hook 'go-mode-hook (lambda () (setq flycheck-disabled-checkers '(go-golint go-vet go-test go-fmt go-staticcheck go-build go-megacheck go-unconvert go-errcheck))))
 
 (add-hook 'go-mode-hook #'lsp-deferred)
 
+(setq lsp-prefer-flymake nil)
+(setq lsp-ui-flycheck-live-reporting nil)
 (setq company-idle-delay .3)
 (setq company-echo-delay 0)
 (electric-pair-mode 1)
