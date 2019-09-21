@@ -7,9 +7,7 @@ HOME=$1
 PWD=`pwd`
 
 # Emacs
-mkdir -p $HOME/.emacs.d/
-ln -fs $PWD/emacs/lisp $HOME/.emacs.d/lisp
-ln -fs $PWD/emacs/init.el $HOME/.emacs.d/init.el
+ln -fs $PWD/emacs/.spacemacs $HOME/.spacemacs
 
 # Tmux
 mkdir -p $HOME/.tmux
