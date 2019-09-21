@@ -6,6 +6,7 @@
   :commands lsp-ui-mode)
 
 (setq lsp-ui-sideline-enable nil)
+(evil-define-key 'normal go-mode-map (kbd "M-l") 'lsp-restart-workspace)
 
 (use-package company-lsp
   :commands company-lsp)
