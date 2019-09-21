@@ -1,17 +1,5 @@
 { config, pkgs, ... }:
 
-let
-  secrets = import ./secrets.nix;
-
-  polybarWithExtras = pkgs.polybar.override {
-    i3Support = true;
-    mpdSupport = true;
-  };
-
-  minikube28 = pkgs.callPackage ./pkgs/minikube28 {
-    inherit (pkgs.darwin.apple_sdk.frameworks) vmnet;
-  };
-in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -100,7 +88,6 @@ ngB61uUFVpzUGM6d3Xpqnts=
       10.50.2.78 jenkins.cloudentity.com
       10.50.2.162 download.microperimeter.cloudentity.com
       10.50.2.162 docs.cloudentity.com
-      127.0.0.1 public.oauth.cloudentity.com admin.oauth.cloudentity.com login.oauth.cloudentity.com
       127.0.0.1 op-test op rp-test
     ";
   };
@@ -126,13 +113,13 @@ ngB61uUFVpzUGM6d3Xpqnts=
   environment.systemPackages = with pkgs; [
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
-    jq polybarWithExtras ntfs3g exfat
+    jq polybar ntfs3g exfat
     neofetch tree psmisc sxiv urxvt_font_size urxvt_perl
     gnupg cacert graphviz openssl pkgconfig
-    shellcheck weechat htop ctop cfssl wrk peek
+    shellcheck htop ctop cfssl wrk peek
     iptables ranger bat highlight dialog
     yq fzf autorandr silver-searcher
-    spotify pgcli cmus cloc xclip bc vagrant hugo mplayer
+    spotify pgcli cmus cloc xclip bc hugo mplayer
     subdl
 
     # gui
@@ -150,28 +137,19 @@ ngB61uUFVpzUGM6d3Xpqnts=
 
     # dev
     ## java scala
-    scala sbt maven jdk jetbrains.idea-community
+    maven jdk jetbrains.idea-community
 
     ## go
     go_1_12 gnumake protobuf3_5
 
     ## elm
-    elmPackages.elm asciidoctor
+    elmPackages.elm
 
     ## js
     nodejs-8_x
 
-    ## haskell
-    ghc stack cabal-install gcc binutils-unwrapped
-
-    ## rust
-    rustup rustracer
-
-    ## python
-    (python27.withPackages(ps: with ps; [ websocket_client livestreamer ]))
-
     # containers
-    docker_compose docker-machine kubectl minikube28 kubernetes-helm
+    docker_compose
   ];
 
   fonts.fonts = with pkgs; [
@@ -242,7 +220,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     isNormalUser = true;
     home = "/home/mbilski";
     description = "Mateusz Bilski";
-    extraGroups = ["wheel" "networkmanager" "audio" "docker" "kubernetes" "video"];
+    extraGroups = ["wheel" "networkmanager" "audio" "docker" "video"];
     uid = 1000;
     shell = pkgs.zsh;
   };
