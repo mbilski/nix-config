@@ -1,5 +1,13 @@
 { config, pkgs, ... }:
 
+let
+  secrets = import ./secrets.nix;
+
+  polybarWithExtras = pkgs.polybar.override {
+    i3Support = true;
+    mpdSupport = true;
+  };
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -113,14 +121,14 @@ ngB61uUFVpzUGM6d3Xpqnts=
   environment.systemPackages = with pkgs; [
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
-    jq polybar ntfs3g exfat
+    jq polybarWithExtras ntfs3g exfat
     neofetch tree psmisc sxiv urxvt_font_size urxvt_perl
     gnupg cacert graphviz openssl pkgconfig
     shellcheck htop ctop cfssl wrk peek
     iptables ranger bat highlight dialog
     yq fzf autorandr silver-searcher
     spotify pgcli cmus cloc xclip bc hugo mplayer
-    subdl
+    subdl ispell
 
     # gui
     google-chrome firefox emacs zoom-us zathura
@@ -212,6 +220,22 @@ ngB61uUFVpzUGM6d3Xpqnts=
   services.xserver.windowManager.i3 = {
     enable = true;
     package = pkgs.i3-gaps;
+  };
+
+  services.mopidy = {
+    enable = true;
+    extensionPackages = [ pkgs.mopidy-spotify pkgs.mopidy-iris ];
+    configuration = ''
+      [spotify]
+      enabled = true
+      username = ${secrets.spotify.username}
+      password = ${secrets.spotify.password}
+      client_id = ${secrets.spotify.clientId}
+      client_secret = ${secrets.spotify.clientSecret}
+      bitrate = 320
+      [audio]
+      output = pulsesink server=127.0.0.1
+    '';
   };
 
   users.groups.video = {};

@@ -22,10 +22,9 @@ gaps outer 0
 
 exec --no-startup-id xmodmap ~/.Xmodmap
 #exec --no-startup-id xsetroot -solid "#333333"
-exec --no-startup-id feh --bg-scale ~/Downloads/4k-wallpaper-clouds-cropland-842711.jpg
+exec --no-startup-id feh --bg-scale ~/Downloads/fog-3622519.jgp
 #exec --no-startup-id pasystray
 exec --no-startup-id nm-applet
-exec --no-startup-id compton --config /etc/nixos/home/i3/config.yaml -b
 
 # volume
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%

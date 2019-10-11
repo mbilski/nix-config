@@ -32,7 +32,10 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(yaml
+   '(html
+     sql
+     javascript
+     yaml
      (lsp :variables
           lsp-navigation 'peek
           lsp-ui-sideline-enable nil)
@@ -53,7 +56,8 @@ This function should only modify configuration layer settings."
      helm
      markdown
      multiple-cursors
-     org
+     (org :variables
+          org-projectile-file "TODOs.org")
      spell-checking
      syntax-checking
      treemacs
@@ -364,7 +368,7 @@ It should only modify the values of Spacemacs settings."
    ;;   :size-limit-kb 1000)
    ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers 'relative
 
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
@@ -474,24 +478,27 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (drag-stuff-mode t)
   (editorconfig-mode 1)
-  (golden-ratio-mode 1)
 
   (global-set-key (kbd "<S-up>") 'drag-stuff-up)
   (global-set-key (kbd "M-[") 'next-buffer)
   (global-set-key (kbd "M-]") 'previous-buffer)
   (global-set-key (kbd "M-f") 'helm-projectile-find-file)
   (global-set-key (kbd "M-r") 'spacemacs/helm-project-do-ag)
-  (global-set-key (kbd "M-.") 'spacemacs/jump-to-definition)
+  (global-set-key (kbd "M-e") 'next-error)
   (global-set-key (kbd "<S-down>") 'drag-stuff-down)
   (define-key evil-normal-state-map (kbd "M-.") 'spacemacs/jump-to-definition)
 
   (setq go-format-before-save t)
 
-  (add-hook 'go-mode-hook
-    (lambda ()
-    (add-hook 'after-save-hook 'spacemacs/go-run-package-tests-nested nil 'make-it-local)))
+  ;; (add-hook 'go-mode-hook
+  ;;   (lambda ()
+  ;;   (add-hook 'after-save-hook 'spacemacs/go-run-package-tests-nested nil 'make-it-local)))
 
-  (push '(compilation-mode :noselect t :position right) popwin:special-display-config)
+  (with-eval-after-load 'org (setq org-agenda-files '("/home/mbilski/org")))
+
+  ; (push '(compilation-mode :width 0.4 :noselect t :position right) popwin:special-display-config)
+
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
   (clean-aindent-mode -1))
 
@@ -507,9 +514,33 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(custom-safe-themes
+   (quote
+    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "82358261c32ebedfee2ca0f87299f74008a2e5ba5c502bde7aaa15db20ee3731" default)))
+ '(evil-want-Y-yank-to-eol nil)
+ '(hl-todo-keyword-faces
+   (quote
+    (("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2d9574")
+     ("PROG" . "#4f97d7")
+     ("OKAY" . "#4f97d7")
+     ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f")
+     ("DONE" . "#86dc2f")
+     ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d")
+     ("HACK" . "#b1951d")
+     ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f")
+     ("XXX+" . "#dc752f")
+     ("\\?\\?\\?+" . "#dc752f"))))
  '(package-selected-packages
    (quote
-    (git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct diff-hl browse-at-remote auto-dictionary mvn meghanada maven-test-mode lsp-java groovy-mode groovy-imports pcache gradle-mode dap-mode bui tree-mode xterm-color vterm shell-pop multi-term eshell-z eshell-prompt-extras esh-help drag-stuff yaml-mode spotify helm-spotify-plus multi treemacs-magit smeargle magit-svn magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit transient git-commit with-editor ranger yasnippet-snippets helm-company helm-c-yasnippet fuzzy company-statistics company-lsp auto-yasnippet yasnippet ac-ispell auto-complete lsp-ui lsp-treemacs helm-lsp lsp-mode markdown-mode dash-functional helm-gtags godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc ggtags flycheck-golangci-lint counsel-gtags counsel swiper ivy company-go go-mode company ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen treemacs-projectile treemacs-evil treemacs ht pfuture toc-org symon symbol-overlay string-inflection spaceline-all-the-icons spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode password-generator paradox spinner overseer org-bullets open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump doom-modeline shrink-path all-the-icons memoize f dash s devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra lv hybrid-mode font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async)))
+    (nord-theme web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data sqlup-mode sql-indent web-beautify tern prettier-js nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl impatient-mode simple-httpd add-node-modules-path libmpdee mpdel git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct diff-hl browse-at-remote auto-dictionary mvn meghanada maven-test-mode lsp-java groovy-mode groovy-imports pcache gradle-mode dap-mode bui tree-mode xterm-color vterm shell-pop multi-term eshell-z eshell-prompt-extras esh-help drag-stuff yaml-mode spotify helm-spotify-plus multi treemacs-magit smeargle magit-svn magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit transient git-commit with-editor ranger yasnippet-snippets helm-company helm-c-yasnippet fuzzy company-statistics company-lsp auto-yasnippet yasnippet ac-ispell auto-complete lsp-ui lsp-treemacs helm-lsp lsp-mode markdown-mode dash-functional helm-gtags godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc ggtags flycheck-golangci-lint counsel-gtags counsel swiper ivy company-go go-mode company ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen treemacs-projectile treemacs-evil treemacs ht pfuture toc-org symon symbol-overlay string-inflection spaceline-all-the-icons spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode password-generator paradox spinner overseer org-bullets open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump doom-modeline shrink-path all-the-icons memoize f dash s devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra lv hybrid-mode font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async)))
+ '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
  '(purpose-user-mode-purposes (quote ((compilation . compilation) (slack-mode . chat)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
