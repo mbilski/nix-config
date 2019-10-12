@@ -2,11 +2,6 @@
 
 let
   secrets = import ./secrets.nix;
-
-  polybarWithExtras = pkgs.polybar.override {
-    i3Support = true;
-    mpdSupport = true;
-  };
 in
 {
   imports =
@@ -121,24 +116,23 @@ ngB61uUFVpzUGM6d3Xpqnts=
   environment.systemPackages = with pkgs; [
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
-    jq polybarWithExtras ntfs3g exfat
+    jq ntfs3g exfat
     neofetch tree psmisc sxiv urxvt_font_size urxvt_perl
     gnupg cacert graphviz openssl pkgconfig
     shellcheck htop ctop cfssl wrk peek
     iptables ranger bat highlight dialog
     yq fzf autorandr silver-searcher
     spotify pgcli cmus cloc xclip bc hugo mplayer
-    subdl ispell
+    subdl ispell termite waybar dropbox
 
     # gui
-    google-chrome firefox emacs zoom-us zathura
+    google-chrome-dev firefox-wayland emacs zoom-us zathura
     shotwell transmission-gtk vlc slack gparted
-    chromedriver
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
     lxappearance adapta-gtk-theme papirus-icon-theme
-    feh scrot compton xcompmgr
+    feh slurp compton xcompmgr
 
     # applets
     networkmanagerapplet pavucontrol pasystray udiskie
@@ -148,13 +142,13 @@ ngB61uUFVpzUGM6d3Xpqnts=
     maven jdk jetbrains.idea-community
 
     ## go
-    go_1_12 gnumake protobuf3_5
+    go gnumake
 
     ## elm
     elmPackages.elm
 
     ## js
-    nodejs-8_x
+    nodejs-12_x
 
     # containers
     docker_compose
@@ -162,6 +156,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
 
   fonts.fonts = with pkgs; [
     noto-fonts
+    roboto
     noto-fonts-cjk
     noto-fonts-emoji
     liberation_ttf
@@ -207,36 +202,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
   services.xserver.enable = true;
   services.xserver.layout = "pl";
   services.xserver.libinput.enable = true;
-
-  services.xserver.displayManager.slim = {
-    enable = true;
-    defaultUser = "mbilski";
-    theme = pkgs.fetchurl {
-      url = "https://github.com/edwtjo/nixos-black-theme/archive/v1.0.tar.gz";
-      sha256 = "13bm7k3p6k7yq47nba08bn48cfv536k4ipnwwp1q1l2ydlp85r9d";
-    };
-  };
-
-  services.xserver.windowManager.i3 = {
-    enable = true;
-    package = pkgs.i3-gaps;
-  };
-
-  services.mopidy = {
-    enable = true;
-    extensionPackages = [ pkgs.mopidy-spotify pkgs.mopidy-iris ];
-    configuration = ''
-      [spotify]
-      enabled = true
-      username = ${secrets.spotify.username}
-      password = ${secrets.spotify.password}
-      client_id = ${secrets.spotify.clientId}
-      client_secret = ${secrets.spotify.clientSecret}
-      bitrate = 320
-      [audio]
-      output = pulsesink server=127.0.0.1
-    '';
-  };
+  services.xserver.displayManager.startx.enable = true;
 
   users.groups.video = {};
 
@@ -244,10 +210,12 @@ ngB61uUFVpzUGM6d3Xpqnts=
     isNormalUser = true;
     home = "/home/mbilski";
     description = "Mateusz Bilski";
-    extraGroups = ["wheel" "networkmanager" "audio" "docker" "video"];
+    extraGroups = ["wheel" "networkmanager" "audio" "docker" "video" "sway"];
     uid = 1000;
     shell = pkgs.zsh;
   };
+
+  programs.sway.enable = true;
 
   programs.zsh.enable = true;
   programs.zsh.promptInit = "";

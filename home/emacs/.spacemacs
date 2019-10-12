@@ -259,7 +259,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil then the last auto saved layouts are resumed automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts 1
 
    ;; If non-nil, auto-generate layout name when creating new layouts. Only has
    ;; effect when using the "jump to layout by number" commands. (default nil)
@@ -494,7 +494,9 @@ before packages are loaded."
   ;;   (lambda ()
   ;;   (add-hook 'after-save-hook 'spacemacs/go-run-package-tests-nested nil 'make-it-local)))
 
-  (with-eval-after-load 'org (setq org-agenda-files '("/home/mbilski/org")))
+  (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE" "DONT")))
+
+  (with-eval-after-load 'org (setq org-agenda-files '("/home/mbilski/Dropbox/org")))
 
   ; (push '(compilation-mode :width 0.4 :noselect t :position right) popwin:special-display-config)
 

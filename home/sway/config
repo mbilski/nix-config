@@ -15,14 +15,14 @@ font pango:Hack 9
 floating_modifier $mod
 hide_edge_borders both
 for_window [class="^.*"] border pixel 1
-new_window 1pixel
+#new_window 1pixel
 
 gaps inner 0
 gaps outer 0
 
 exec --no-startup-id xmodmap ~/.Xmodmap
 #exec --no-startup-id xsetroot -solid "#333333"
-exec --no-startup-id feh --bg-scale ~/Downloads/fog-3622519.jgp
+exec --no-startup-id feh --bg-scale ~/Downloads/fog-3622519.jpg
 #exec --no-startup-id pasystray
 exec --no-startup-id nm-applet
 
@@ -40,9 +40,9 @@ bindsym XF86AudioNext exec mpc next
 bindsym XF86AudioPrev exec mpc prev
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec termite
 
-bindsym $mod+b exec ~/.i3/lock.sh
+bindsym $mod+b exec swaylock
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -128,7 +128,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -157,4 +157,13 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-exec_always --no-startup-id ~/.config/polybar/launch.sh
+output DP-1 bg ~/.i3/wallpaper.jpg stretch
+output eDP-1 bg ~/.i3/wallpaper.jpg stretch
+
+input 1:1:AT_Translated_Set_2_keyboard {  
+  xkb_options ctrl:nocaps
+} 
+
+bar {
+    swaybar_command waybar
+}
