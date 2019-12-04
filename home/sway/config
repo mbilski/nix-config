@@ -11,19 +11,10 @@
 
 set $mod Mod4
 
-font pango:Hack 9
-floating_modifier $mod
-hide_edge_borders both
+font Hack 10
 for_window [class="^.*"] border pixel 1
-#new_window 1pixel
-
-gaps inner 0
-gaps outer 0
-
-exec --no-startup-id xmodmap ~/.Xmodmap
-#exec --no-startup-id xsetroot -solid "#333333"
-exec --no-startup-id feh --bg-scale ~/Downloads/fog-3622519.jpg
-#exec --no-startup-id pasystray
+default_border pixel
+hide_edge_borders both
 exec --no-startup-id nm-applet
 
 # volume
@@ -42,12 +33,10 @@ bindsym XF86AudioPrev exec mpc prev
 # start a terminal
 bindsym $mod+Return exec termite
 
-bindsym $mod+b exec swaylock
+bindsym $mod+b exec swaylock -i /home/mbilski/Downloads/wallpaper.jpg
 
 # kill focused window
 bindsym $mod+Shift+q kill
-
-bindsym $mod+d exec --no-startup-id rofi -show
 
 # change focus
 bindsym $mod+h focus left
@@ -95,9 +84,6 @@ bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
-
-# focus the child cobntainer
-#bindsym $mod+d focus child
 
 # switch to workspace
 bindsym $mod+1 workspace number 1
@@ -157,12 +143,11 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-output DP-1 bg ~/.i3/wallpaper.jpg stretch
-output eDP-1 bg ~/.i3/wallpaper.jpg stretch
+bindsym $mod+d exec rofi -show run
 
-input 1:1:AT_Translated_Set_2_keyboard {  
+input 1:1:AT_Translated_Set_2_keyboard {
   xkb_options ctrl:nocaps
-} 
+}
 
 bar {
     swaybar_command waybar

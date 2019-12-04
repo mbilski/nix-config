@@ -2,6 +2,10 @@
 
 let
   secrets = import ./secrets.nix;
+
+  waybarWithExtras = pkgs.waybar.override {
+    pulseSupport = true;
+  };
 in
 {
   imports =
@@ -90,8 +94,9 @@ ngB61uUFVpzUGM6d3Xpqnts=
       127.0.0.1 authorization.cloudentity.com
       10.50.2.78 jenkins.cloudentity.com
       10.50.2.162 download.microperimeter.cloudentity.com
+      10.50.2.162 download.authorization.cloudentity.com
       10.50.2.162 docs.cloudentity.com
-      127.0.0.1 op-test op rp-test
+      127.0.0.1 op-test op rp-test fapi-test
     ";
   };
 
@@ -116,36 +121,41 @@ ngB61uUFVpzUGM6d3Xpqnts=
   environment.systemPackages = with pkgs; [
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
-    jq ntfs3g exfat
+    jq ntfs3g exfat grim slurp mdl linkchecker
     neofetch tree psmisc sxiv urxvt_font_size urxvt_perl
     gnupg cacert graphviz openssl pkgconfig
     shellcheck htop ctop cfssl wrk peek
     iptables ranger bat highlight dialog
     yq fzf autorandr silver-searcher
     spotify pgcli cmus cloc xclip bc hugo mplayer
-    subdl ispell termite waybar dropbox
+    subdl ispell termite waybarWithExtras dropbox
+    browsh 
 
     # gui
-    google-chrome-dev firefox-wayland emacs zoom-us zathura
+    google-chrome firefox emacs zoom-us zathura
     shotwell transmission-gtk vlc slack gparted
 
     # xserver
     rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
     lxappearance adapta-gtk-theme papirus-icon-theme
     feh slurp compton xcompmgr
+    gnome3.gnome-session
 
     # applets
     networkmanagerapplet pavucontrol pasystray udiskie
 
     # dev
     ## java scala
-    maven jdk jetbrains.idea-community
+    maven jdk jetbrains.idea-community sbt
 
     ## go
     go gnumake
 
     ## elm
     elmPackages.elm
+
+    ## rust
+    rustup gcc
 
     ## js
     nodejs-12_x
@@ -200,6 +210,8 @@ ngB61uUFVpzUGM6d3Xpqnts=
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  hardware.opengl.enable = true;
+  services.xserver.desktopManager.gnome3.enable = true;
   services.xserver.layout = "pl";
   services.xserver.libinput.enable = true;
   services.xserver.displayManager.startx.enable = true;
