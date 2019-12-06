@@ -158,7 +158,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     rustup gcc
 
     ## js
-    nodejs-12_x
+    nodejs-12_x yarn
 
     # containers
     docker_compose

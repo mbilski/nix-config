@@ -218,7 +218,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font or prioritized list of fonts.
    dotspacemacs-default-font '("Hack"
-                               :size 8.0
+                               :size 6.0
                                :weight normal
                                :width normal)
 
