@@ -3,6 +3,15 @@
 let
   secrets = import ./secrets.nix;
 
+  pythonPackages = python-packages: with python-packages; [
+    pkgs.python37Packages.scikitlearn
+    pkgs.python37Packages.matplotlib
+    pkgs.python37Packages.pandas
+    pkgs.python37Packages.psycopg2
+    pkgs.python37Packages.redis
+  ];
+  pythonWithPackages = pkgs.python3.withPackages pythonPackages;
+
   waybarWithExtras = pkgs.waybar.override {
     pulseSupport = true;
   };
@@ -16,6 +25,12 @@ in
   nixpkgs.config = {
     allowUnfree = true;
   };
+
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+    }))
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -91,12 +106,11 @@ ngB61uUFVpzUGM6d3Xpqnts=
     networkmanager.enable = true;
     extraHosts = "
       127.0.0.1 t470
+      127.0.0.1 postgres
       127.0.0.1 authorization.cloudentity.com
-      10.50.2.78 jenkins.cloudentity.com
-      10.50.2.162 download.microperimeter.cloudentity.com
-      10.50.2.162 download.authorization.cloudentity.com
-      10.50.2.162 docs.cloudentity.com
       127.0.0.1 op-test op rp-test fapi-test
+      10.50.2.78 jenkins.cloudentity.com
+      10.50.2.162 docs.cloudentity.com
     ";
   };
 
@@ -121,47 +135,36 @@ ngB61uUFVpzUGM6d3Xpqnts=
   environment.systemPackages = with pkgs; [
     # console
     wget xsel vim tmux git tig fasd openvpn unzip zip
-    jq ntfs3g exfat grim slurp mdl linkchecker
-    neofetch tree psmisc sxiv urxvt_font_size urxvt_perl
-    gnupg cacert graphviz openssl pkgconfig
-    shellcheck htop ctop cfssl wrk peek
-    iptables ranger bat highlight dialog
-    yq fzf autorandr silver-searcher
-    spotify pgcli cmus cloc xclip bc hugo mplayer
-    subdl ispell termite waybarWithExtras dropbox
-    browsh 
+    jq grim slurp tree psmisc sxiv urxvt_font_size urxvt_perl
+    gnupg cacert openssl pkgconfig htop ctop cfssl peek
+    iptables ranger dialog fzf silver-searcher
+    pgcli cloc xclip bc subdl termite waybarWithExtras heroku
+    docker_compose
 
     # gui
-    google-chrome firefox emacs zoom-us zathura
-    shotwell transmission-gtk vlc slack gparted
+    google-chrome firefox emacsGit zoom-us zathura
+    shotwell transmission-gtk vlc slack gparted spotify
 
     # xserver
-    rofi conky xorg.xmodmap xorg.xkill xorg.xbacklight
+    rofi xorg.xmodmap xorg.xkill xorg.xbacklight
     lxappearance adapta-gtk-theme papirus-icon-theme
-    feh slurp compton xcompmgr
-    gnome3.gnome-session
+    feh xcompmgr gnome3.gnome-session
 
     # applets
     networkmanagerapplet pavucontrol pasystray udiskie
 
     # dev
     ## java scala
-    maven jdk jetbrains.idea-community sbt
+    maven jdk
+
+    # python
+    pythonWithPackages
 
     ## go
     go gnumake
 
-    ## elm
-    elmPackages.elm
-
-    ## rust
-    rustup gcc
-
     ## js
     nodejs-12_x yarn
-
-    # containers
-    docker_compose
   ];
 
   fonts.fonts = with pkgs; [
@@ -186,10 +189,6 @@ ngB61uUFVpzUGM6d3Xpqnts=
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
   networking.firewall.enable = false;
 
   # Enable CUPS to print documents.
@@ -242,7 +241,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     source $ZSH/oh-my-zsh.sh
     source "$(fzf-share)/key-bindings.zsh"
     eval "$(fasd --init auto)"
-    export GOROOT=${pkgs.go_1_12}/share/go
+    export GOROOT=${pkgs.go}/share/go
   '';
 
   virtualisation.docker.enable = true;

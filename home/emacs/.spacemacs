@@ -32,14 +32,28 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(react
+   '(sql
+     csv
+     (python :variables python-backend 'lsp python-lsp-server 'pyls)
+     react
      systemd
      html
      javascript
      yaml
+     octave
      rust
+     (javascript :variables
+                 javascript-import-tool 'import-js
+                 javascript-fmt-on-save t
+                 javascript-lsp-linter nil
+                 javascript-backend 'lsp
+                 js-indent-level 2
+                 js2-basic-offset 2
+                 javascript-fmt-tool 'prettier)
      (lsp :variables
           lsp-navigation 'peek
+          lsp-ui-flycheck-live-reporting nil
+          lsp-ui-doc-enable nil
           lsp-ui-sideline-enable nil)
      (go :variables
          gofmt-command "goimports"
@@ -47,12 +61,12 @@ This function should only modify configuration layer settings."
          go-backend 'lsp)
      (java :variables
            java-backend 'lsp)
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-tab-key-behavior nil
+                      auto-completion-private-snippets-directory nil)
      ranger
      git
-     spotify
      shell
-     spacemacs-purpose
      better-defaults
      emacs-lisp
      helm
@@ -60,7 +74,6 @@ This function should only modify configuration layer settings."
      multiple-cursors
      (org :variables
           org-projectile-file "TODOs.org")
-     spell-checking
      syntax-checking
      treemacs
      version-control
@@ -463,6 +476,7 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (add-to-list 'exec-path "~/.npm-packages/bin" t)
   )
 
 (defun dotspacemacs/user-load ()
@@ -481,6 +495,7 @@ before packages are loaded."
   (drag-stuff-mode t)
   (editorconfig-mode 1)
 
+  ;; (global-set-key (kbd "TAB") 'hippie-expand)
   (global-set-key (kbd "<S-up>") 'drag-stuff-up)
   (global-set-key (kbd "M-[") 'next-buffer)
   (global-set-key (kbd "M-]") 'previous-buffer)
@@ -490,8 +505,15 @@ before packages are loaded."
   (global-set-key (kbd "<S-down>") 'drag-stuff-down)
   (define-key evil-normal-state-map (kbd "M-.") 'spacemacs/jump-to-definition)
 
+  (setq js2-mode-show-parse-errors nil)
+  (setq js2-mode-show-strict-warnings nil)
   (setq go-format-before-save t)
   (setq rust-format-on-save t)
+
+  (setq gc-cons-threshold 1000000000)
+  (setq read-process-output-max (* 1024 1024))
+  (setq lsp-idle-delay 1)
+  (setq flycheck-check-syntax-automatically '(save mode-enable))
 
   ;; (add-hook 'go-mode-hook
   ;;   (lambda ()
@@ -501,11 +523,12 @@ before packages are loaded."
 
   (with-eval-after-load 'org (setq org-agenda-files '("/home/mbilski/Dropbox/org")))
 
-  (push '(compilation-mode :noselect t :position bottom-and-right) popwin:special-display-config)
+  ;; (push '(compilation-mode :noselect t :position bottom-and-right) popwin:special-display-config)
 
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-  (clean-aindent-mode -1))
+  (clean-aindent-mode -1)
+  ;; (electric-pair-mode 1))
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -544,7 +567,7 @@ This function is called at the very end of Spacemacs initialization."
      ("\\?\\?\\?+" . "#dc752f"))))
  '(package-selected-packages
    (quote
-    (rjsx-mode systemd toml-mode racer flycheck-rust cargo rust-mode nord-theme web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data web-beautify tern prettier-js nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl impatient-mode simple-httpd add-node-modules-path libmpdee mpdel git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct diff-hl browse-at-remote auto-dictionary mvn meghanada maven-test-mode lsp-java groovy-mode groovy-imports pcache gradle-mode dap-mode bui tree-mode xterm-color vterm shell-pop multi-term eshell-z eshell-prompt-extras esh-help drag-stuff yaml-mode spotify helm-spotify-plus multi treemacs-magit smeargle magit-svn magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit transient git-commit with-editor ranger yasnippet-snippets helm-company helm-c-yasnippet fuzzy company-statistics company-lsp auto-yasnippet yasnippet ac-ispell auto-complete lsp-ui lsp-treemacs helm-lsp lsp-mode markdown-mode dash-functional helm-gtags godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc ggtags flycheck-golangci-lint counsel-gtags counsel swiper ivy company-go go-mode company ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen treemacs-projectile treemacs-evil treemacs ht pfuture toc-org symon symbol-overlay string-inflection spaceline-all-the-icons spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode password-generator paradox spinner overseer org-bullets open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump doom-modeline shrink-path all-the-icons memoize f dash s devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra lv hybrid-mode font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async)))
+    (yapfify stickyfunc-enhance pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope cython-mode company-anaconda blacken anaconda-mode pythonic tide typescript-mode multi-line slack circe oauth2 websocket emojify emoji-cheat-sheet-plus company-emoji yatemplate rjsx-mode systemd toml-mode racer flycheck-rust cargo rust-mode nord-theme web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data web-beautify tern prettier-js nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl impatient-mode simple-httpd add-node-modules-path libmpdee mpdel git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl browse-at-remote auto-dictionary mvn meghanada maven-test-mode lsp-java groovy-mode groovy-imports pcache gradle-mode dap-mode bui tree-mode xterm-color vterm shell-pop multi-term eshell-z eshell-prompt-extras esh-help drag-stuff yaml-mode spotify helm-spotify-plus multi treemacs-magit smeargle magit-svn magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit transient git-commit with-editor ranger yasnippet-snippets helm-company helm-c-yasnippet fuzzy company-statistics company-lsp auto-yasnippet yasnippet auto-complete lsp-ui lsp-treemacs helm-lsp lsp-mode markdown-mode dash-functional helm-gtags godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc ggtags flycheck-golangci-lint counsel-gtags counsel swiper ivy company-go go-mode company ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen treemacs-projectile treemacs-evil treemacs ht pfuture toc-org symon symbol-overlay string-inflection spaceline-all-the-icons spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode password-generator paradox spinner overseer org-bullets open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump doom-modeline shrink-path all-the-icons memoize f dash s devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra lv hybrid-mode font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
