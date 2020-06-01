@@ -2,16 +2,6 @@
 
 let
   secrets = import ./secrets.nix;
-
-  pythonPackages = python-packages: with python-packages; [
-    pkgs.python37Packages.scikitlearn
-    pkgs.python37Packages.matplotlib
-    pkgs.python37Packages.pandas
-    pkgs.python37Packages.psycopg2
-    pkgs.python37Packages.redis
-  ];
-  pythonWithPackages = pkgs.python3.withPackages pythonPackages;
-
   waybarWithExtras = pkgs.waybar.override {
     pulseSupport = true;
   };
@@ -139,7 +129,8 @@ ngB61uUFVpzUGM6d3Xpqnts=
     gnupg cacert openssl pkgconfig htop ctop cfssl peek
     iptables ranger dialog fzf silver-searcher
     pgcli cloc xclip bc subdl termite waybarWithExtras heroku
-    docker_compose
+    docker_compose direnv graphviz neovim ripgrep
+    coreutils fd clang cmake libvterm libtool gcc
 
     # gui
     google-chrome firefox emacsGit zoom-us zathura
@@ -157,14 +148,8 @@ ngB61uUFVpzUGM6d3Xpqnts=
     ## java scala
     maven jdk
 
-    # python
-    pythonWithPackages
-
     ## go
-    go gnumake
-
-    ## js
-    nodejs-12_x yarn
+    go gnumake nodejs
   ];
 
   fonts.fonts = with pkgs; [
@@ -206,6 +191,8 @@ ngB61uUFVpzUGM6d3Xpqnts=
   };
 
   services.udisks2.enable = true;
+
+  services.lorri.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;

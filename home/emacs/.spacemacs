@@ -231,7 +231,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font or prioritized list of fonts.
    dotspacemacs-default-font '("Hack"
-                               :size 6.0
+                               :size 10.0
                                :weight normal
                                :width normal)
 
@@ -515,15 +515,15 @@ before packages are loaded."
   (setq lsp-idle-delay 1)
   (setq flycheck-check-syntax-automatically '(save mode-enable))
 
-  ;; (add-hook 'go-mode-hook
-  ;;   (lambda ()
-  ;;   (add-hook 'after-save-hook 'spacemacs/go-run-package-tests-nested nil 'make-it-local)))
+  (add-hook 'go-mode-hook
+    (lambda ()
+    (add-hook 'after-save-hook 'lsp-ui-mode nil 'make-it-local)))
 
   (setq org-todo-keywords '((sequence "TODO" "PROG" "|" "DONE" "DONT")))
 
   (with-eval-after-load 'org (setq org-agenda-files '("/home/mbilski/Dropbox/org")))
 
-  ;; (push '(compilation-mode :noselect t :position bottom-and-right) popwin:special-display-config)
+  (push '(compilation-mode :noselect t :position bottom-and-right) popwin:special-display-config)
 
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (clean-aindent-mode -1)
