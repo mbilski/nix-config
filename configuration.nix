@@ -131,6 +131,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     pgcli cloc xclip bc subdl termite waybarWithExtras heroku
     docker_compose direnv graphviz neovim ripgrep
     coreutils fd clang cmake libvterm libtool gcc
+    gitAndTools.git-standup ngrok
 
     # gui
     google-chrome firefox emacsGit zoom-us zathura
