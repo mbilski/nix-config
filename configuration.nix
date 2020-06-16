@@ -18,7 +18,7 @@ in
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/e60b3c796b6687dae3ea7241759a587fda3abcba.tar.gz;
     }))
   ];
 
@@ -128,7 +128,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     jq grim slurp tree psmisc sxiv urxvt_font_size urxvt_perl
     gnupg cacert openssl pkgconfig htop ctop cfssl peek
     iptables ranger dialog fzf silver-searcher
-    pgcli cloc xclip bc subdl termite waybarWithExtras heroku
+    pgcli mycli cloc xclip bc subdl termite waybarWithExtras heroku
     docker_compose direnv graphviz neovim ripgrep
     coreutils fd clang cmake libvterm libtool gcc
     gitAndTools.git-standup ngrok
