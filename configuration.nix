@@ -185,14 +185,27 @@ ngB61uUFVpzUGM6d3Xpqnts=
   hardware.pulseaudio = {
     enable = true;
     support32Bit = true;
+    package = pkgs.pulseaudioFull;
+    extraModules = [ pkgs.pulseaudio-modules-bt ];
     tcp = {
       enable = true;
       anonymousClients.allowedIpRanges = ["127.0.0.1"];
     };
   };
 
-  services.udisks2.enable = true;
+  hardware.bluetooth.extraConfig = "
+    [General]
+    Enable=Source,Sink,Media,Socket
+  ";
 
+  hardware.pulseaudio.extraConfig = "
+    load-module module-switch-on-connect
+  ";
+
+  hardware.bluetooth.enable = true;
+
+  services.blueman.enable = true;
+  services.udisks2.enable = true;
   services.lorri.enable = true;
 
   # Enable the X11 windowing system.
