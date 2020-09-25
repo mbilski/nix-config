@@ -131,7 +131,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     pgcli mycli cloc xclip bc subdl termite waybarWithExtras heroku
     docker_compose direnv graphviz neovim ripgrep
     coreutils fd clang cmake libvterm libtool gcc
-    gitAndTools.git-standup ngrok
+    gitAndTools.git-standup ngrok gitAndTools.gh
 
     # gui
     google-chrome firefox emacsGit zoom-us zathura
@@ -140,7 +140,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     # xserver
     rofi xorg.xmodmap xorg.xkill xorg.xbacklight
     lxappearance adapta-gtk-theme papirus-icon-theme
-    feh xcompmgr gnome3.gnome-session
+    feh xcompmgr gnome3.gnome-session mako
 
     # applets
     networkmanagerapplet pavucontrol pasystray udiskie
