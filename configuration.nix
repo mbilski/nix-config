@@ -18,13 +18,21 @@ in
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/e60b3c796b6687dae3ea7241759a587fda3abcba.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/b2de1fa2391333d673ed3c761eadf474202cc13d.tar.gz;
     }))
   ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmpOnTmpfs = true;
+
+  boot = {
+    extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+    kernelModules = [ "v4l2loopback" ];
+    extraModprobeConfig = ''
+      options v4l2loopback exclusive_caps=1 video_nr=9 card_label="WfRecorder"
+    '';
+  };
 
   boot.loader.grub = {
     enable = true;
@@ -132,6 +140,8 @@ ngB61uUFVpzUGM6d3Xpqnts=
     docker_compose direnv graphviz neovim ripgrep
     coreutils fd clang cmake libvterm libtool gcc
     gitAndTools.git-standup ngrok gitAndTools.gh
+    xwayland kanshi xdg-desktop-portal-wlr wf-recorder
+    sqlite
 
     # gui
     google-chrome firefox emacsGit zoom-us zathura
