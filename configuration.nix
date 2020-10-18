@@ -2,8 +2,9 @@
 
 let
   secrets = import ./secrets.nix;
-  waybarWithExtras = pkgs.waybar.override {
-    pulseSupport = true;
+  polybarWithExtras = pkgs.polybar.override {
+    i3Support = true;
+    mpdSupport = true;
   };
 in
 {
@@ -136,12 +137,10 @@ ngB61uUFVpzUGM6d3Xpqnts=
     jq grim slurp tree psmisc sxiv urxvt_font_size urxvt_perl
     gnupg cacert openssl pkgconfig htop ctop cfssl peek
     iptables ranger dialog fzf silver-searcher
-    pgcli mycli cloc xclip bc subdl termite waybarWithExtras heroku
+    pgcli cloc xclip bc subdl termite
     docker_compose direnv graphviz neovim ripgrep
     coreutils fd clang cmake libvterm libtool gcc
     gitAndTools.git-standup ngrok gitAndTools.gh
-    xwayland kanshi xdg-desktop-portal-wlr wf-recorder
-    sqlite
 
     # gui
     google-chrome firefox emacsGit zoom-us zathura
@@ -150,7 +149,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     # xserver
     rofi xorg.xmodmap xorg.xkill xorg.xbacklight
     lxappearance adapta-gtk-theme papirus-icon-theme
-    feh xcompmgr gnome3.gnome-session mako
+    feh xcompmgr polybarWithExtras
 
     # applets
     networkmanagerapplet pavucontrol pasystray udiskie
@@ -167,6 +166,8 @@ ngB61uUFVpzUGM6d3Xpqnts=
     noto-fonts
     roboto
     noto-fonts-cjk
+    source-code-pro
+    hack-font
     noto-fonts-emoji
     liberation_ttf
     fira-code
@@ -218,13 +219,33 @@ ngB61uUFVpzUGM6d3Xpqnts=
   services.udisks2.enable = true;
   services.lorri.enable = true;
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
   hardware.opengl.enable = true;
-  services.xserver.desktopManager.gnome3.enable = true;
-  services.xserver.layout = "pl";
-  services.xserver.libinput.enable = true;
-  services.xserver.displayManager.startx.enable = true;
+
+  # Enable the X11 windowing system.
+  services.xserver = {
+    enable = true;
+    layout = "pl";
+
+    libinput.enable = true;
+
+    desktopManager = {
+      xterm.enable = false;
+    };
+
+    displayManager = {
+        defaultSession = "none+i3";
+    };
+
+    windowManager.i3 = {
+      enable = true;
+      extraPackages = with pkgs; [
+        dmenu
+        i3status
+        i3lock
+        i3blocks
+     ];
+    };
+  };
 
   users.groups.video = {};
 
