@@ -1,0 +1,9 @@
+eval "$(direnv hook zsh)"
+export GOPATH=/home/mbilski/projects/go
+export PATH=$GOPATH/bin:/home/mbilski/.npm-packages/bin:/home/mbilski/tools/bin:$PATH:$GOPATH/bin:/home/mbilski/.cargo/bin
+set -o vi
+bindkey "^R" fzf-history-widget
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+export GOPRIVATE=bitbucket.org/syntegritynet/*
+export GOPRIVATE=github.com/cloudentity/*

@@ -35,3 +35,4 @@ ln -nfs $PWD/xorg/Xresources $HOME/.Xresources
 
 # zsh
 ln -nfs $PWD/zsh $HOME/.zsh
+ln -nfs $PWD/zshrc $HOME/.zshrc
