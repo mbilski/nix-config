@@ -128,7 +128,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     jq grim slurp tree psmisc sxiv urxvt_font_size urxvt_perl
     gnupg cacert openssl pkgconfig htop ctop cfssl peek
     iptables ranger dialog fzf silver-searcher
-    pgcli cloc xclip bc subdl termite
+    pgcli cloc xclip bc subdl termite bash
     docker_compose direnv graphviz neovim ripgrep
     coreutils fd clang cmake libvterm libtool gcc
     gitAndTools.git-standup ngrok gitAndTools.gh
