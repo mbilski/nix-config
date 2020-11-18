@@ -7,31 +7,31 @@ HOME=$1
 PWD=`pwd`
 
 # Emacs
-ln -fs $PWD/emacs/.spacemacs $HOME/.spacemacs
+ln -nfs $PWD/emacs $HOME/.doom.d
 
 # Tmux
 mkdir -p $HOME/.tmux
-ln -fs $PWD/tmux/tmux.conf $HOME/.tmux.conf
-ln -fs $PWD/tmux/theme $HOME/.tmux/basic.tmuxtheme
+ln -nfs $PWD/tmux/tmux.conf $HOME/.tmux.conf
+ln -nfs $PWD/tmux/theme $HOME/.tmux/basic.tmuxtheme
 
 if [ ! -e "$HOME/.tmux/yank" ]; then
     git clone https://github.com/tmux-plugins/tmux-yank $HOME/.tmux/yank
 fi
 
 # i3
-ln -fs $PWD/i3 $HOME/.i3
+ln -nfs $PWD/i3 $HOME/.config/i3
 mkdir -p $HOME/.config/rofi
-ln -fs $PWD/i3/rofi $HOME/.config/rofi/config
+ln -nfs $PWD/i3/rofi $HOME/.config/rofi/config
 
 # polybar
-ln $PWD/polybar $HOME/.config/polybar
+ln -nfs $PWD/polybar $HOME/.config/polybar
 
 # vim
-ln -fs $PWD/vim/vimrc $HOME/.vimrc
+ln -nfs $PWD/vim/vimrc $HOME/.vimrc
 
 # xorg
-ln -fs $PWD/xorg/Xmodmap $HOME/.Xmodmap
-ln -fs $PWD/xorg/Xresources $HOME/.Xresources
+ln -nfs $PWD/xorg/Xmodmap $HOME/.Xmodmap
+ln -nfs $PWD/xorg/Xresources $HOME/.Xresources
 
 # zsh
-ln -fs $PWD/zsh $HOME/.zsh
+ln -nfs $PWD/zsh $HOME/.zsh

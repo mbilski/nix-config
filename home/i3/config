@@ -11,11 +11,17 @@
 
 set $mod Mod4
 
-font Hack 10
-for_window [class="^.*"] border pixel 1
-default_border pixel
+font pango:Hack 9
+floating_modifier $mod
 hide_edge_borders both
-exec --no-startup-id nm-applet
+for_window [class="^.*"] border pixel 1
+new_window 1pixel
+
+exec --no-startup-id xmodmap ~/.Xmodmap
+exec --no-startup-id xsetroot -solid "#333333"
+#exec --no-startup-id feh --bg-scale ~/Downloads/fog-3622519.jgp
+#exec --no-startup-id pasystray
+#exec --no-startup-id nm-applet
 
 # volume
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
@@ -33,10 +39,12 @@ bindsym XF86AudioPrev exec mpc prev
 # start a terminal
 bindsym $mod+Return exec termite
 
-bindsym $mod+b exec swaylock -i /home/mbilski/Downloads/wallpaper.jpg
+bindsym $mod+b exec ~/.i3/lock.sh
 
 # kill focused window
 bindsym $mod+Shift+q kill
+
+bindsym $mod+d exec --no-startup-id rofi -show drun
 
 # change focus
 bindsym $mod+h focus left
@@ -85,6 +93,9 @@ bindsym $mod+space focus mode_toggle
 # focus the parent container
 bindsym $mod+a focus parent
 
+# focus the child cobntainer
+#bindsym $mod+d focus child
+
 # switch to workspace
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
@@ -114,7 +125,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -143,12 +154,4 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-bindsym $mod+d exec rofi -show run
-
-input 1:1:AT_Translated_Set_2_keyboard {
-  xkb_options ctrl:nocaps
-}
-
-bar {
-    swaybar_command waybar
-}
+exec_always --no-startup-id ~/.config/polybar/launch.sh
