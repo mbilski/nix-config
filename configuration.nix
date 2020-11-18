@@ -4,7 +4,6 @@ let
   secrets = import ./secrets.nix;
   polybarWithExtras = pkgs.polybar.override {
     i3Support = true;
-    mpdSupport = true;
   };
 in
 {
@@ -26,14 +25,6 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmpOnTmpfs = true;
-
-  boot = {
-    extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
-    kernelModules = [ "v4l2loopback" ];
-    extraModprobeConfig = ''
-      options v4l2loopback exclusive_caps=1 video_nr=9 card_label="WfRecorder"
-    '';
-  };
 
   boot.loader.grub = {
     enable = true;
@@ -156,7 +147,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
 
     # dev
     ## java scala
-    maven jdk
+    maven jdk jetbrains.idea-community
 
     ## go
     go gnumake nodejs
