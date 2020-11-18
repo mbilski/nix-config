@@ -29,6 +29,9 @@ ln -nfs $PWD/polybar $HOME/.config/polybar
 # vim
 ln -nfs $PWD/vim/vimrc $HOME/.vimrc
 
+# termite
+ln -nfs $PWD/termite $HOME/.config/termite
+
 # xorg
 ln -nfs $PWD/xorg/Xmodmap $HOME/.Xmodmap
 ln -nfs $PWD/xorg/Xresources $HOME/.Xresources
