@@ -25,6 +25,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmpOnTmpfs = true;
+  boot.kernelParams = [ "nouveau.modeset=0" ];
 
   boot.loader.grub = {
     enable = true;
@@ -98,6 +99,8 @@ ngB61uUFVpzUGM6d3Xpqnts=
       127.0.0.1 t470
       127.0.0.1 postgres
       127.0.0.1 authorization.cloudentity.com
+      127.0.0.1 local.cloudentity.com
+      127.0.0.1 cloudentity.local.cloudentity.com
       127.0.0.1 op-test op rp-test fapi-test
       10.50.2.78 jenkins.cloudentity.com
       10.50.2.162 docs.cloudentity.com
@@ -132,6 +135,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     docker_compose direnv graphviz neovim ripgrep
     coreutils fd clang cmake libvterm libtool gcc
     gitAndTools.git-standup ngrok gitAndTools.gh
+    neofetch busybox
 
     # gui
     google-chrome firefox emacsGit zoom-us zathura
@@ -140,7 +144,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     # xserver
     rofi xorg.xmodmap xorg.xkill xorg.xbacklight
     lxappearance adapta-gtk-theme papirus-icon-theme
-    feh xcompmgr polybarWithExtras
+    feh xcompmgr polybarWithExtras scrot
 
     # applets
     networkmanagerapplet pavucontrol pasystray udiskie
@@ -150,7 +154,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     maven jdk jetbrains.idea-community
 
     ## go
-    go gnumake nodejs
+    go gnumake nodejs-14_x yarn
   ];
 
   fonts.fonts = with pkgs; [
@@ -216,6 +220,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
   services.xserver = {
     enable = true;
     layout = "pl";
+    videoDrivers = ["nvidia"];
 
     libinput.enable = true;
 
