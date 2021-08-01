@@ -35,9 +35,16 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+(add-hook 'go-mode-local-vars-hook #'golang-setup)
+
 ;; custom
 (setq evil-escape-key-sequence "fd")
-(setq lsp-gopls-codelens nil)
+(setq-hook! 'yaml-mode-hook tab-width 2)
 (setq compilation-window-height 10)
 (global-set-key (kbd "<S-up>") 'rrag-stuff-up)
 (global-set-key (kbd "<S-down>") 'drag-stuff-down)

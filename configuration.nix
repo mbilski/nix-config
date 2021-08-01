@@ -98,12 +98,12 @@ ngB61uUFVpzUGM6d3Xpqnts=
     extraHosts = "
       127.0.0.1 t470
       127.0.0.1 postgres
-      127.0.0.1 authorization.cloudentity.com
-      127.0.0.1 local.cloudentity.com
-      127.0.0.1 cloudentity.local.cloudentity.com
       127.0.0.1 op-test op rp-test fapi-test
-      10.50.2.78 jenkins.cloudentity.com
-      10.50.2.162 docs.cloudentity.com
+      127.0.0.1 acp.acp-system
+      127.0.0.1 acp.local
+      127.0.0.1 jaeger.acp.local
+      127.0.0.1 grafana.acp.local
+      127.0.0.1 cockroachdb.acp.local
     ";
   };
 
@@ -123,6 +123,8 @@ ngB61uUFVpzUGM6d3Xpqnts=
 
   programs.light.enable = true;
 
+  programs.gnupg.agent.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -135,7 +137,8 @@ ngB61uUFVpzUGM6d3Xpqnts=
     docker_compose direnv graphviz neovim ripgrep
     coreutils fd clang cmake libvterm libtool gcc
     gitAndTools.git-standup ngrok gitAndTools.gh
-    neofetch busybox
+    neofetch busybox asciinema update-resolv-conf
+    websocat
 
     # gui
     google-chrome firefox emacsGit zoom-us zathura
@@ -150,8 +153,11 @@ ngB61uUFVpzUGM6d3Xpqnts=
     networkmanagerapplet pavucontrol pasystray udiskie
 
     # dev
-    ## java scala
     maven jdk jetbrains.idea-community
+    awscli2 eksctl direnv
+
+    ## kube
+    kubectl kustomize kubeval kubernetes-helm sops k3s k9s
 
     ## go
     go gnumake nodejs-14_x yarn
@@ -256,18 +262,16 @@ ngB61uUFVpzUGM6d3Xpqnts=
 
   programs.sway.enable = true;
 
-  programs.zsh.enable = true;
-  programs.zsh.promptInit = "";
-  programs.zsh.syntaxHighlighting.enable = true;
-  programs.zsh.autosuggestions.enable = true;
+  programs.zsh = {
+    enable = true;
+    ohMyZsh.enable = true;
+    ohMyZsh.plugins = [ "git" ];
+    ohMyZsh.theme = "spaceship";
+    ohMyZsh.customPkgs = [pkgs.spaceship-prompt pkgs.zsh-powerlevel9k pkgs.fzf];
+    syntaxHighlighting.enable = true;
+  };
+
   programs.zsh.interactiveShellInit = ''
-    export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh/
-    ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
-    ZSH_CUSTOM=$HOME/.zsh
-    ZSH_THEME="gister"
-    plugins=(git)
-    source $ZSH/oh-my-zsh.sh
-    source "$(fzf-share)/key-bindings.zsh"
     eval "$(fasd --init auto)"
     export GOROOT=${pkgs.go}/share/go
   '';

@@ -1,9 +1,14 @@
 eval "$(direnv hook zsh)"
 export GOPATH=/home/mbilski/projects/go
-export PATH=$GOPATH/bin:/home/mbilski/.npm-packages/bin:/home/mbilski/tools/bin:$PATH:$GOPATH/bin:/home/mbilski/.cargo/bin
+export PATH=$GOPATH/bin:/home/mbilski/.npm-packages/bin:/home/mbilski/tools/bin:$PATH:$GOPATH/bin:/home/mbilski/.cargo/bin:/usr/local/bin
 set -o vi
 bindkey "^R" fzf-history-widget
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
-export GOPRIVATE=bitbucket.org/syntegritynet/*
 export GOPRIVATE=github.com/cloudentity/*
+source .secrets
+if [ -n "${commands[fzf-share]}" ]; then
+  source "$(fzf-share)/key-bindings.zsh"
+  source "$(fzf-share)/completion.zsh"
+fi
+[[ /run/current-system/sw/bin/kubectl ]] && source <(kubectl completion zsh)
