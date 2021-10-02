@@ -55,8 +55,8 @@ modules-left = i3 mpd
 modules-center = xwindow
 modules-right = xbacklight volume cpu memory filesystem battery wlan date
 
-tray-position = right
-tray-padding = 2
+;tray-position = right
+;tray-padding = 2
 ;tray-transparent = true
 ;tray-background = #0063ff
 

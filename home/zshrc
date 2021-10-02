@@ -6,7 +6,7 @@ bindkey "^R" fzf-history-widget
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 export GOPRIVATE=github.com/cloudentity/*
-source .secrets
+source /home/mbilski/.secrets
 if [ -n "${commands[fzf-share]}" ]; then
   source "$(fzf-share)/key-bindings.zsh"
   source "$(fzf-share)/completion.zsh"
