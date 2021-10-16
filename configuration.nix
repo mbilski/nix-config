@@ -94,7 +94,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
   '' ];
 
   networking = {
-    nameservers = [ "8.8.8.8" "35.168.75.32" ];
+    nameservers = [ "8.8.8.8" "10.5.0.2" ];
     hostName = "t470";
     networkmanager.enable = true;
     extraHosts = "
@@ -102,6 +102,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
       127.0.0.1 postgres
       127.0.0.1 op-test op rp-test fapi-test
       127.0.0.1 acp.acp-system
+      127.0.0.1 authorization.cloudentity.com
       127.0.0.1 acp.local
       127.0.0.1 jaeger.acp.local
       127.0.0.1 grafana.acp.local
@@ -140,7 +141,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     coreutils fd clang cmake libvterm libtool gcc
     gitAndTools.git-standup ngrok gitAndTools.gh
     neofetch busybox asciinema update-resolv-conf
-    websocat
+    websocat rpi-imager wakeonlan bfg-repo-cleaner
 
     # gui
     google-chrome firefox emacsGit zoom-us zathura
@@ -159,7 +160,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     awscli2 eksctl direnv
 
     ## kube
-    kubectl kustomize kubeval kubernetes-helm sops k3s k9s
+    kubectl kustomize kubeval kubernetes-helm sops k3s k9s krew
 
     ## go
     go gnumake nodejs-14_x yarn
@@ -223,7 +224,6 @@ ngB61uUFVpzUGM6d3Xpqnts=
   services.xserver = {
     enable = true;
     layout = "pl";
-    videoDrivers = ["nvidia"];
 
     libinput.enable = true;
 

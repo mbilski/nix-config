@@ -1,6 +1,7 @@
 eval "$(direnv hook zsh)"
 export GOPATH=/home/mbilski/projects/go
 export PATH=$GOPATH/bin:/home/mbilski/.npm-packages/bin:/home/mbilski/tools/bin:$PATH:$GOPATH/bin:/home/mbilski/.cargo/bin:/usr/local/bin
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 set -o vi
 bindkey "^R" fzf-history-widget
 alias pbcopy='xclip -selection clipboard'
