@@ -36,6 +36,13 @@ in
 
   systemd.enableUnifiedCgroupHierarchy = false;
 
+  services = {
+    clamav = {
+      daemon. enable = true;
+      updater.enable = true;
+    };
+  };
+
   nix.gc.automatic = true;
   nix.gc.dates = "weekly";
   nix.gc.options = "--delete-older-than 7d";
@@ -104,6 +111,10 @@ ngB61uUFVpzUGM6d3Xpqnts=
       127.0.0.1 acp.acp-system
       127.0.0.1 authorization.cloudentity.com
       127.0.0.1 acp.local
+      127.0.0.1 admin.acp.local
+      127.0.0.1 developer.acp.local
+      127.0.0.1 default.acp.local
+      127.0.0.1 system.acp.local
       127.0.0.1 jaeger.acp.local
       127.0.0.1 grafana.acp.local
       127.0.0.1 cockroachdb.acp.local
@@ -142,6 +153,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     gitAndTools.git-standup ngrok gitAndTools.gh
     neofetch busybox asciinema update-resolv-conf
     websocat rpi-imager wakeonlan bfg-repo-cleaner
+    clamav
 
     # gui
     google-chrome firefox emacsGit zoom-us zathura
