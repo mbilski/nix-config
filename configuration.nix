@@ -2,6 +2,7 @@
 
 let
   secrets = import ./secrets.nix;
+  unstable = import <unstable> { config = { allowUnfree = true; }; };
   polybarWithExtras = pkgs.polybar.override {
     i3Support = true;
   };
@@ -18,11 +19,10 @@ in
 
   nixpkgs.overlays = [
     (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/b2de1fa2391333d673ed3c761eadf474202cc13d.tar.gz;
+      url = https://github.com/nix-community/emacs-overlay/archive/858214991200eccc2f0a4f929f4baa0ffd8281c6.tar.gz;
     }))
   ];
 
-  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmpOnTmpfs = true;
   boot.kernelParams = [ "nouveau.modeset=0" ];
@@ -111,9 +111,11 @@ ngB61uUFVpzUGM6d3Xpqnts=
       127.0.0.1 acp.acp-system
       127.0.0.1 authorization.cloudentity.com
       127.0.0.1 acp.local
+      127.0.0.1 mtls.acp.local
       127.0.0.1 admin.acp.local
       127.0.0.1 developer.acp.local
       127.0.0.1 default.acp.local
+      127.0.0.1 mtls.default.acp.local
       127.0.0.1 system.acp.local
       127.0.0.1 jaeger.acp.local
       127.0.0.1 grafana.acp.local
@@ -125,7 +127,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
   i18n = {
     consoleFont = "Lat2-Terminus16";
     consoleKeyMap = "pl";
-    defaultLocale = "pl_PL.UTF-8";
+    defaultLocale = "en_US.UTF-8";
   };
 
   # Set your time zone.
@@ -148,12 +150,12 @@ ngB61uUFVpzUGM6d3Xpqnts=
     gnupg cacert openssl pkgconfig htop ctop cfssl peek
     iptables ranger dialog fzf silver-searcher
     pgcli cloc xclip bc subdl bash alacritty
-    docker_compose direnv graphviz neovim ripgrep
+    docker-compose direnv graphviz neovim ripgrep
     coreutils fd clang cmake libvterm libtool gcc
     gitAndTools.git-standup ngrok gitAndTools.gh
     neofetch busybox asciinema update-resolv-conf
     websocat rpi-imager wakeonlan bfg-repo-cleaner
-    clamav
+    clamav tdesktop bintools-unwrapped testssl asciinema
 
     # gui
     google-chrome firefox emacsGit zoom-us zathura
@@ -169,13 +171,14 @@ ngB61uUFVpzUGM6d3Xpqnts=
 
     # dev
     maven jdk jetbrains.idea-community
-    awscli2 eksctl direnv
+    awscli2 ssm-session-manager-plugin eksctl direnv jetbrains.goland
+    vscode-with-extensions vscode-extensions.ms-vsliveshare.vsliveshare
 
     ## kube
     kubectl kustomize kubeval kubernetes-helm sops k3s k9s krew
 
     ## go
-    go gnumake nodejs-14_x yarn
+    unstable.go_1_19 gnumake nodejs-14_x yarn
   ];
 
   fonts.fonts = with pkgs; [
@@ -188,7 +191,6 @@ ngB61uUFVpzUGM6d3Xpqnts=
     liberation_ttf
     fira-code
     fira-code-symbols
-    mplus-outline-fonts
     dina-font
     proggyfonts
     fontforge
@@ -209,11 +211,11 @@ ngB61uUFVpzUGM6d3Xpqnts=
 
   # Enable sound.
   sound.enable = true;
+
   hardware.pulseaudio = {
     enable = true;
     support32Bit = true;
     package = pkgs.pulseaudioFull;
-    extraModules = [ pkgs.pulseaudio-modules-bt ];
     tcp = {
       enable = true;
       anonymousClients.allowedIpRanges = ["127.0.0.1"];
@@ -231,6 +233,8 @@ ngB61uUFVpzUGM6d3Xpqnts=
   services.lorri.enable = true;
 
   hardware.opengl.enable = true;
+
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -282,15 +286,10 @@ ngB61uUFVpzUGM6d3Xpqnts=
 
   programs.zsh.interactiveShellInit = ''
     eval "$(fasd --init auto)"
-    export GOROOT=${pkgs.go}/share/go
+    export GOROOT=${unstable.go_1_18}/share/go
   '';
 
   virtualisation.docker.enable = true;
-
-  virtualisation.virtualbox.host = {
-      enable = true;
-      headless = true;
-  };
 
   system.stateVersion = "18.03";
 }

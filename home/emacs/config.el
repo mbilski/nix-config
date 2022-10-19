@@ -53,6 +53,7 @@
 (global-set-key (kbd "M-f") '+ivy/projectile-find-file)
 (global-set-key (kbd "M-[") 'next-buffer)
 (global-set-key (kbd "M-]") 'previous-buffer)
+(global-set-key (kbd "M-o") 'ranger)
 (define-key evil-normal-state-map (kbd "M-.") 'lsp-find-definition)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
