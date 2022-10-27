@@ -286,7 +286,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
 
   programs.zsh.interactiveShellInit = ''
     eval "$(fasd --init auto)"
-    export GOROOT=${unstable.go_1_18}/share/go
+    export GOROOT=${unstable.go_1_19}/share/go
   '';
 
   virtualisation.docker.enable = true;
