@@ -56,6 +56,17 @@
 (global-set-key (kbd "M-o") 'ranger)
 (define-key evil-normal-state-map (kbd "M-.") 'lsp-find-definition)
 
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (("C-TAB" . 'copilot-accept-completion-by-word)
+         ("C-<tab>" . 'copilot-accept-completion-by-word)
+         ("M-n" . 'copilot-next-completion)
+         ("M-p" . 'copilot-previous-completion)
+         ("M-<tab>" . 'copilot-accept-completion)
+         :map copilot-completion-map
+         ("<tab>" . 'copilot-accept-completion)
+         ("TAB" . 'copilot-accept-completion)))
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one

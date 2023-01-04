@@ -27,6 +27,8 @@ in
   boot.tmpOnTmpfs = true;
   boot.kernelParams = [ "nouveau.modeset=0" ];
 
+  system.autoUpgrade.enable = true;
+
   boot.loader.grub = {
     enable = true;
     device = "nodev";
@@ -100,8 +102,14 @@ ngB61uUFVpzUGM6d3Xpqnts=
 -----END CERTIFICATE-----
   '' ];
 
+  networking.interfaces.enp5s0.ipv4.addresses = [ {
+    address = "192.168.1.3";
+    prefixLength = 24;
+  } ];
+
   networking = {
     nameservers = [ "8.8.8.8" "10.5.0.2" ];
+    defaultGateway = "192.168.1.1";
     hostName = "t470";
     networkmanager.enable = true;
     extraHosts = "
@@ -158,7 +166,7 @@ ngB61uUFVpzUGM6d3Xpqnts=
     clamav tdesktop bintools-unwrapped testssl asciinema
 
     # gui
-    google-chrome firefox emacsGit zoom-us zathura
+    google-chrome firefox emacsGit unstable.zoom-us zathura
     shotwell transmission-gtk vlc slack gparted spotify
 
     # xserver
